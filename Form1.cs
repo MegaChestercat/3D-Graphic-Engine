@@ -172,7 +172,9 @@ namespace Optimized_3D_Graphic_Engine
 
         private void SphereBTN_Click(object sender, EventArgs e)
         {
-
+            model = Sphere.CreateSphere(2, 40);
+            instances = new Instance[1];
+            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, 0.75f);
         }
 
         private void SemiSphere_Click(object sender, EventArgs e)
