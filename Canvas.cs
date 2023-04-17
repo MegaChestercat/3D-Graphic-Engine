@@ -89,18 +89,20 @@ namespace Optimized_3D_Graphic_Engine
             g = Graphics.FromImage(bitmap);
         }
 
-        public void SetModelInstances()
+        public void SetModelInstances(Instance[] instances)
         {
+            /*
             cube = new Model(vertices, triangles);
             instances = new Instance[] {
                                     new Instance(cube, new Vertex( -1.25f,    0,    7 ), Matrix.Identity, 0.75f) };
                                     //new Instance(cube, new Vertex(  1.25f, 2.5f, 7.5f ), Matrix.RotY(195)),
                                     //new Instance(cube, new Vertex(     0,     0,  -10 ), Matrix.RotY(195))};
-            Render();
+            */
+            Render(instances);
         }
-        private void Render()
+        private void Render(Instance[] i)
         {
-            RenderScene(camera, instances);
+            RenderScene(camera, i);
         }
         public void PutPixel(int x, int y, Color c)
         {
