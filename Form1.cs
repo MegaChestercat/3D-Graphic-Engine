@@ -5,11 +5,13 @@ namespace Optimized_3D_Graphic_Engine
     public partial class Form1 : Form
     {
 
-        bool x, y, z, all = false;
+        bool x, y, z, all, semi = false;
         Canvas canvas;
         Instance[] instances;
-        Model model;
+        Model model, model2;
         int angle = 0;
+        float scale = 0.75f;
+        int rotSpeed = 2;
 
         public Form1()
         {
@@ -21,7 +23,6 @@ namespace Optimized_3D_Graphic_Engine
         {
             canvas = new Canvas(PCT_CANVAS.Size);
             PCT_CANVAS.Image = canvas.Bitmap;
-            //canvas.SetModelInstances();
             PCT_CANVAS.Invalidate();
         }
 
@@ -54,6 +55,7 @@ namespace Optimized_3D_Graphic_Engine
             OpenFileDialog openFileDialog = new OpenFileDialog();
             Vertex[] vertices;
             Triangle[] triangles;
+            semi = false;
 
             openFileDialog.Filter = "OBJ files (*.obj)|*.obj";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -111,7 +113,7 @@ namespace Optimized_3D_Graphic_Engine
         {
             model = new Model(vertices, triangles);
             instances = new Instance[1];
-            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, 0.75f);
+            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
         }
 
         private void rotTimer_Tick(object sender, EventArgs e)
@@ -123,23 +125,59 @@ namespace Optimized_3D_Graphic_Engine
                 canvas.SetModelInstances(instances);
                 if (x)
                 {
-                    instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotX(angle), 0.75f);
-                    angle += 5;
+                    if (semi == false)
+                    {
+                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotX(angle), scale);
+                        angle += rotSpeed;
+                    }
+                    else
+                    {
+                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotX(angle), scale);
+                        instances[1] = new Instance(model2, new Vertex(0, 0, 8), Matrix.RotX(angle), scale);
+                        angle += rotSpeed;
+                    }
                 }
                 else if (y)
                 {
-                    instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotY(angle), 0.75f);
-                    angle += 5;
+                    if (semi == false)
+                    {
+                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotY(angle), scale);
+                        angle += rotSpeed;
+                    }
+                    else
+                    {
+                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotY(angle), scale);
+                        instances[1] = new Instance(model2, new Vertex(0, 0, 8), Matrix.RotY(angle), scale);
+                        angle += rotSpeed;
+                    }
                 }
                 else if (z)
                 {
-                    instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotZ(angle), 0.75f);
-                    angle += 5;
+                    if (semi == false)
+                    {
+                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotZ(angle), scale);
+                        angle += rotSpeed;
+                    }
+                    else
+                    {
+                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotZ(angle), scale);
+                        instances[1] = new Instance(model2, new Vertex(0, 0, 8), Matrix.RotZ(angle), scale);
+                        angle += rotSpeed;
+                    }
                 }
                 else if (all)
                 {
-                    instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Rotate(angle), 0.75f);
-                    angle += 5;
+                    if (semi == false)
+                    {
+                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Rotate(angle), scale);
+                        angle += rotSpeed;
+                    }
+                    else
+                    {
+                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Rotate(angle), scale);
+                        instances[1] = new Instance(model2, new Vertex(0, 0, 8), Matrix.Rotate(angle), scale);
+                        angle += rotSpeed;
+                    }
                 }
 
                 PCT_CANVAS.Invalidate();
@@ -151,35 +189,74 @@ namespace Optimized_3D_Graphic_Engine
 
         private void CubeBTN_Click(object sender, EventArgs e)
         {
+            semi = false;
             model = Cube.CreateCube();
             instances = new Instance[1];
-            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, 0.75f);
+            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
         }
 
         private void ConeBTN_Click(object sender, EventArgs e)
         {
-            model = Cone.createCone(1f, 2f, 15);
+            semi = false;
+            model = Cone.createCone(1f, 3f, 20);
             instances = new Instance[1];
-            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, 0.75f);
+            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
         }
 
         private void CylinderBTN_Click(object sender, EventArgs e)
         {
-            model = Cylinder.createCylinder(1f, 2f, 15);
+            semi = false;
+            model = Cylinder.createCylinder(1f, 3f, 20);
             instances = new Instance[1];
-            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, 0.75f);
+            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
         }
 
         private void SphereBTN_Click(object sender, EventArgs e)
         {
+            semi = false;
             model = Sphere.CreateSphere(2, 40);
             instances = new Instance[1];
-            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, 0.75f);
+            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
         }
 
         private void SemiSphere_Click(object sender, EventArgs e)
         {
+            semi = true;
+            instances = new Instance[2];
+            model = Pizza.CreateCircle(2, 0, 40);
+            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
+            model2 = HalfSphere.CreateSemi(2, 40);
+            instances[1] = new Instance(model2, new Vertex(0, 0, 8), Matrix.Identity, scale);
+        }
 
+        private void ScaleField_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == Convert.ToChar(Keys.Enter)) 
+            {
+                try
+                {
+                    scale = float.Parse(ScaleField.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("The value you set is invalid. \n\nPlease try again.");
+                }
+            }
+        }
+
+        private void RotField_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == Convert.ToChar(Keys.Enter))
+            {
+                try
+                {
+                    rotSpeed = int.Parse(RotField.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("The value you set is invalid. \n\nPlease try again.");
+                }
+            }
         }
     }
 }

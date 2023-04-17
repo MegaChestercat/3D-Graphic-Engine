@@ -2,37 +2,40 @@
 {
     public class Cylinder
     {
-        public static Model createCylinder(float radius, float height, int numSegments)
+        public static Model createCylinder(float radius, float height, int slices)
         {
             List<Vertex> vertices = new List<Vertex>();
             List<Triangle> triangles = new List<Triangle>();
-            Vertex center = new Vertex(0, 0, 0);
-            float angle = 2 * (float)Math.PI / numSegments;
-            Vertex apex = new Vertex(0, height / 2, 0);
-            Vertex abajo = new Vertex(0, -height / 2, 0);
+
+            float angle = 2 * (float)Math.PI / slices;
+            Vertex topCircle = new Vertex(0, height / 2, 0);
+            Vertex bottomCircle = new Vertex(0, -height / 2, 0);
             int vertexIndex = 0;
 
-            for (int i = 0; i < numSegments; i++)
+            for (int i = 0; i < slices; i++)
             {
-                Vertex v1 = apex;
+                //Top base of the cylinder
+                Vertex v1 = topCircle;
                 Vertex v2 = new Vertex(radius * (float)Math.Cos((i - 1) * angle), height / 2, radius * (float)Math.Sin((i - 1) * angle));
                 Vertex v3 = new Vertex(radius * (float)Math.Cos(i * angle), height / 2, radius * (float)Math.Sin(i * angle));
-                triangles.Add(new Triangle(vertexIndex + 1, vertexIndex, vertexIndex + 2, Color.Aqua));
+                triangles.Add(new Triangle(vertexIndex + 1, vertexIndex, vertexIndex + 2, Color.Yellow));
                 vertexIndex += 3;
 
-                Vertex v4 = abajo;
+                //Bottom base of the cylinder
+                Vertex v4 = bottomCircle;
                 Vertex v5 = new Vertex(radius * (float)Math.Cos((i - 1) * angle), -height / 2, radius * (float)Math.Sin((i - 1) * angle));
                 Vertex v6 = new Vertex(radius * (float)Math.Cos(i * angle), -height / 2, radius * (float)Math.Sin(i * angle));
-                triangles.Add(new Triangle(vertexIndex + 1, vertexIndex, vertexIndex + 2, Color.Aqua));
-                triangles.Add(new Triangle(vertexIndex, vertexIndex + 1, vertexIndex + 2, Color.Aqua));
+                triangles.Add(new Triangle(vertexIndex + 1, vertexIndex, vertexIndex + 2, Color.Yellow));
+                triangles.Add(new Triangle(vertexIndex, vertexIndex + 1, vertexIndex + 2, Color.Yellow));
                 vertexIndex += 3;
 
+                //Vertices that help on the construction of the cylinder
                 Vertex v7 = new Vertex(radius * (float)Math.Cos((i - 1) * angle), height / 2, radius * (float)Math.Sin((i - 1) * angle));
                 Vertex v8 = new Vertex(radius * (float)Math.Cos((i - 1) * angle), -height / 2, radius * (float)Math.Sin((i - 1) * angle));
                 Vertex v9 = new Vertex(radius * (float)Math.Cos(i * angle), height / 2, radius * (float)Math.Sin(i * angle));
                 Vertex v10 = new Vertex(radius * (float)Math.Cos(i * angle), -height / 2, radius * (float)Math.Sin(i * angle));
-                triangles.Add(new Triangle(vertexIndex, vertexIndex + 1, vertexIndex + 2, Color.Aqua));
-                triangles.Add(new Triangle(vertexIndex + 1, vertexIndex + 3, vertexIndex + 2, Color.Aqua));
+                triangles.Add(new Triangle(vertexIndex, vertexIndex + 1, vertexIndex + 2, Color.Yellow));
+                triangles.Add(new Triangle(vertexIndex + 1, vertexIndex + 3, vertexIndex + 2, Color.Yellow));
                 vertexIndex += 4;
 
                 vertices.Add(v1);

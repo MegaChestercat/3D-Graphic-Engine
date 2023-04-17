@@ -41,6 +41,10 @@
             CylinderBTN = new Button();
             SphereBTN = new Button();
             SemiSphere = new Button();
+            ScaleField = new TextBox();
+            RotField = new TextBox();
+            label1 = new Label();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)PCT_CANVAS).BeginInit();
             SuspendLayout();
             // 
@@ -159,12 +163,52 @@
             SemiSphere.UseVisualStyleBackColor = true;
             SemiSphere.Click += SemiSphere_Click;
             // 
+            // ScaleField
+            // 
+            ScaleField.Location = new Point(912, 547);
+            ScaleField.Name = "ScaleField";
+            ScaleField.Size = new Size(89, 23);
+            ScaleField.TabIndex = 12;
+            ScaleField.KeyPress += ScaleField_KeyPress;
+            // 
+            // RotField
+            // 
+            RotField.Location = new Point(912, 576);
+            RotField.Name = "RotField";
+            RotField.Size = new Size(89, 23);
+            RotField.TabIndex = 13;
+            RotField.KeyPress += RotField_KeyPress;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(867, 559);
+            label1.Name = "label1";
+            label1.Size = new Size(39, 15);
+            label1.TabIndex = 14;
+            label1.Text = "Scale:";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Location = new Point(810, 579);
+            label2.Name = "label2";
+            label2.Size = new Size(96, 15);
+            label2.TabIndex = 15;
+            label2.Text = "Rotation Speed:";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1028, 609);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(RotField);
+            Controls.Add(ScaleField);
             Controls.Add(SemiSphere);
             Controls.Add(SphereBTN);
             Controls.Add(CylinderBTN);
@@ -180,6 +224,7 @@
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)PCT_CANVAS).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -195,5 +240,9 @@
         private Button CylinderBTN;
         private Button SphereBTN;
         private Button SemiSphere;
+        private TextBox ScaleField;
+        private TextBox RotField;
+        private Label label1;
+        private Label label2;
     }
 }
