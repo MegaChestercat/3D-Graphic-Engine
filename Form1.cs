@@ -158,12 +158,16 @@ namespace Optimized_3D_Graphic_Engine
 
         private void ConeBTN_Click(object sender, EventArgs e)
         {
-
+            model = Cone.createCone(1f, 2f, 15);
+            instances = new Instance[1];
+            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, 0.75f);
         }
 
         private void CylinderBTN_Click(object sender, EventArgs e)
         {
-
+            model = Cylinder.createCylinder(1f, 2f, 15);
+            instances = new Instance[1];
+            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, 0.75f);
         }
 
         private void SphereBTN_Click(object sender, EventArgs e)

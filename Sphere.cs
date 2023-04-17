@@ -2,12 +2,6 @@
 {
     public class Sphere
     {
-        public static Model CreateSphere()
-        {
-            Model model;
 
-
-
-        }
     }
 }
