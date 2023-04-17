@@ -17,22 +17,22 @@
                 Vertex v1 = apex;
                 Vertex v2 = new Vertex(radius * (float)Math.Cos((i - 1) * angle), height / 2, radius * (float)Math.Sin((i - 1) * angle));
                 Vertex v3 = new Vertex(radius * (float)Math.Cos(i * angle), height / 2, radius * (float)Math.Sin(i * angle));
-                triangles.Add(new Triangle(vertexIndex + 1, vertexIndex, vertexIndex + 2, Color.Red));
+                triangles.Add(new Triangle(vertexIndex + 1, vertexIndex, vertexIndex + 2, Color.Aqua));
                 vertexIndex += 3;
 
                 Vertex v4 = abajo;
                 Vertex v5 = new Vertex(radius * (float)Math.Cos((i - 1) * angle), -height / 2, radius * (float)Math.Sin((i - 1) * angle));
                 Vertex v6 = new Vertex(radius * (float)Math.Cos(i * angle), -height / 2, radius * (float)Math.Sin(i * angle));
-                triangles.Add(new Triangle(vertexIndex + 1, vertexIndex, vertexIndex + 2, Color.Red));
-                triangles.Add(new Triangle(vertexIndex, vertexIndex + 1, vertexIndex + 2, Color.Red));
+                triangles.Add(new Triangle(vertexIndex + 1, vertexIndex, vertexIndex + 2, Color.Aqua));
+                triangles.Add(new Triangle(vertexIndex, vertexIndex + 1, vertexIndex + 2, Color.Aqua));
                 vertexIndex += 3;
 
                 Vertex v7 = new Vertex(radius * (float)Math.Cos((i - 1) * angle), height / 2, radius * (float)Math.Sin((i - 1) * angle));
                 Vertex v8 = new Vertex(radius * (float)Math.Cos((i - 1) * angle), -height / 2, radius * (float)Math.Sin((i - 1) * angle));
                 Vertex v9 = new Vertex(radius * (float)Math.Cos(i * angle), height / 2, radius * (float)Math.Sin(i * angle));
                 Vertex v10 = new Vertex(radius * (float)Math.Cos(i * angle), -height / 2, radius * (float)Math.Sin(i * angle));
-                triangles.Add(new Triangle(vertexIndex, vertexIndex + 1, vertexIndex + 2, Color.Red));
-                triangles.Add(new Triangle(vertexIndex + 1, vertexIndex + 3, vertexIndex + 2, Color.Red));
+                triangles.Add(new Triangle(vertexIndex, vertexIndex + 1, vertexIndex + 2, Color.Aqua));
+                triangles.Add(new Triangle(vertexIndex + 1, vertexIndex + 3, vertexIndex + 2, Color.Aqua));
                 vertexIndex += 4;
 
                 vertices.Add(v1);

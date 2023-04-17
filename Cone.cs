@@ -33,7 +33,7 @@ namespace Optimized_3D_Graphic_Engine
                 int index2 = (i * 3) + 1;
                 int index3 = (i * 3);
 
-                triangles.Add(new Triangle(index1, index2, index3, Color.Red));
+                triangles.Add(new Triangle(index1, index2, index3, Color.Aqua));
             }
 
             Vertex apex = new Vertex(center.X, center.Y, center.Z + height);
@@ -54,7 +54,7 @@ namespace Optimized_3D_Graphic_Engine
                 int index2 = (numSegments * 3) + (i * 3) + 1;
                 int index3 = (numSegments * 3) + (i * 3) + 2;
 
-                triangles.Add(new Triangle(index1, index2, index3, Color.Red));
+                triangles.Add(new Triangle(index1, index2, index3, Color.Aqua));
             }
 
             Model mesh = new Model(vertices.ToArray(), triangles.ToArray());
