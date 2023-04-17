@@ -119,13 +119,15 @@ namespace Optimized_3D_Graphic_Engine
         {
             if (model != null)
             {
+                
                 canvas.FastClear();
                 canvas.SetModelInstances(instances);
-                if (x == true) instances[0].orientation = Matrix.RotX(angle++);
-                else if (y == true) instances[0].orientation = Matrix.RotY(angle++);
-                else if (z) instances[0].orientation = Matrix.RotZ(angle++);
-                else if (all) instances[0].orientation=Matrix.Rotate(angle++);
+                if (x == true) instances[0].transform = Matrix.RotX(angle++);
+                else if (y == true) instances[0].transform = Matrix.RotY(angle++);
+                else if (z) instances[0].transform = Matrix.RotZ(angle++);
+                else if (all) instances[0].transform = Matrix.Rotate(angle++);
                 PCT_CANVAS.Invalidate();
+
             }
             
         }
