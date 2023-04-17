@@ -69,13 +69,13 @@
                 {0,  0,  0,              1}});
         }
 
-        public static Matrix Rotate(Vertex v)
+        public static Matrix Rotate(float angle)
         {
             Matrix x, y, z;
 
-            x = RotX(v.X);
-            y = RotY(v.Y);
-            z = RotZ(v.Z);
+            x = RotX(angle);
+            y = RotY(angle);
+            z = RotZ(angle);
 
             return x * y * z;
         }

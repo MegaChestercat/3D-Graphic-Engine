@@ -9,6 +9,7 @@ namespace Optimized_3D_Graphic_Engine
         Canvas canvas;
         Instance[] instances;
         Model model;
+        int angle = 0;
 
         public Form1()
         {
@@ -26,22 +27,26 @@ namespace Optimized_3D_Graphic_Engine
 
         private void rotBTN_Click(object sender, EventArgs e)
         {
-
+            x = true;
+            y = z = all = false;
         }
 
         private void rotBTN2_Click(object sender, EventArgs e)
         {
-
+            y = true;
+            x = z = all = false;
         }
 
         private void rotBTN3_Click(object sender, EventArgs e)
         {
-
+            z = true;
+            x = y = all = false;
         }
 
         private void rotBTN4_Click(object sender, EventArgs e)
         {
-
+            all = true;
+            x = y = z = false;
         }
 
         private void ObjBTN_Click(object sender, EventArgs e)
@@ -112,10 +117,14 @@ namespace Optimized_3D_Graphic_Engine
 
         private void rotTimer_Tick(object sender, EventArgs e)
         {
-            if(model != null)
+            if (model != null)
             {
                 canvas.FastClear();
                 canvas.SetModelInstances(instances);
+                if (x == true) instances[0].orientation = Matrix.RotX(angle++);
+                else if (y == true) instances[0].orientation = Matrix.RotY(angle++);
+                else if (z) instances[0].orientation = Matrix.RotZ(angle++);
+                else if (all) instances[0].orientation=Matrix.Rotate(angle++);
                 PCT_CANVAS.Invalidate();
             }
             
