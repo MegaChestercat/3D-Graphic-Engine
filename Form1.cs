@@ -94,7 +94,6 @@ namespace Optimized_3D_Graphic_Engine
                                 trianglesValues.Add(new Triangle(int.Parse(triaValues[1])-1, int.Parse(triaValues[2])-1, int.Parse(triaValues[3])-1, Color.Yellow));
                             }
                         }
-                        //MessageBox.Show(triaValues);
                     }
                     vertices = verticesValues.ToArray();
                     triangles = trianglesValues.ToArray();
@@ -122,14 +121,32 @@ namespace Optimized_3D_Graphic_Engine
                 
                 canvas.FastClear();
                 canvas.SetModelInstances(instances);
-                if (x == true) instances[0].transform = Matrix.RotX(angle++);
-                else if (y == true) instances[0].transform = Matrix.RotY(angle++);
-                else if (z) instances[0].transform = Matrix.RotZ(angle++);
-                else if (all) instances[0].transform = Matrix.Rotate(angle++);
-                PCT_CANVAS.Invalidate();
+                if (x)
+                {
+                    instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotX(angle), 0.75f);
+                    angle += 5;
+                }
+                else if (y)
+                {
+                    instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotY(angle), 0.75f);
+                    angle += 5;
+                }
+                else if (z)
+                {
+                    instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotZ(angle), 0.75f);
+                    angle += 5;
+                }
+                else if (all) 
+                {
+                    instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Rotate(angle), 0.75f);
+                    angle += 5;
+                }
 
+                PCT_CANVAS.Invalidate();
             }
             
+            
+
         }
     }
 }
