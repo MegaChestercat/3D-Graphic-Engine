@@ -53,13 +53,13 @@ namespace Optimized_3D_Graphic_Engine
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             Vertex[] vertices;
-            Triangle[] triangles ;
+            Triangle[] triangles;
 
             openFileDialog.Filter = "OBJ files (*.obj)|*.obj";
-            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filename = openFileDialog.FileName;
-                
+
                 try
                 {
                     StreamReader sr = new StreamReader(filename);
@@ -68,30 +68,30 @@ namespace Optimized_3D_Graphic_Engine
                     while (sr.Peek() >= 0)
                     {
                         string line = sr.ReadLine();
-                        
+
                         if (line.StartsWith("v "))
                         {
                             string[] verValues = line.Split(' ');
                             verticesValues.Add(new Vertex(float.Parse(verValues[1]), float.Parse(verValues[2]), float.Parse(verValues[3])));
                         }
-                        else if(line.StartsWith("f "))
+                        else if (line.StartsWith("f "))
                         {
                             if (line.Contains('/'))
                             {
                                 string[] spaces = line.Split(' ');
                                 string[] triaValues = new string[3];
 
-                                for (int i = 0; i < spaces.Length-1; i++)
+                                for (int i = 0; i < spaces.Length - 1; i++)
                                 {
-                                    string[] diagonals = spaces[i+1].Split('/');
+                                    string[] diagonals = spaces[i + 1].Split('/');
                                     triaValues[i] = diagonals[0];
                                 }
-                                trianglesValues.Add(new Triangle(int.Parse(triaValues[0])-1, int.Parse(triaValues[1])-1, int.Parse(triaValues[2])-1, Color.Yellow));
+                                trianglesValues.Add(new Triangle(int.Parse(triaValues[0]) - 1, int.Parse(triaValues[1]) - 1, int.Parse(triaValues[2]) - 1, Color.Yellow));
                             }
                             else
                             {
                                 string[] triaValues = line.Split(' ');
-                                trianglesValues.Add(new Triangle(int.Parse(triaValues[1])-1, int.Parse(triaValues[2])-1, int.Parse(triaValues[3])-1, Color.Yellow));
+                                trianglesValues.Add(new Triangle(int.Parse(triaValues[1]) - 1, int.Parse(triaValues[2]) - 1, int.Parse(triaValues[3]) - 1, Color.Yellow));
                             }
                         }
                     }
@@ -118,7 +118,7 @@ namespace Optimized_3D_Graphic_Engine
         {
             if (model != null)
             {
-                
+
                 canvas.FastClear();
                 canvas.SetModelInstances(instances);
                 if (x)
@@ -136,7 +136,7 @@ namespace Optimized_3D_Graphic_Engine
                     instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotZ(angle), 0.75f);
                     angle += 5;
                 }
-                else if (all) 
+                else if (all)
                 {
                     instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Rotate(angle), 0.75f);
                     angle += 5;
@@ -144,8 +144,35 @@ namespace Optimized_3D_Graphic_Engine
 
                 PCT_CANVAS.Invalidate();
             }
-            
-            
+
+
+
+        }
+
+        private void CubeBTN_Click(object sender, EventArgs e)
+        {
+            model = Cube.CreateCube();
+            instances = new Instance[1];
+            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, 0.75f);
+        }
+
+        private void ConeBTN_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CylinderBTN_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SphereBTN_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SemiSphere_Click(object sender, EventArgs e)
+        {
 
         }
     }

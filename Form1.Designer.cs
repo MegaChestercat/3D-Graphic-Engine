@@ -36,6 +36,11 @@
             rotTimer = new System.Windows.Forms.Timer(components);
             PCT_CANVAS = new PictureBox();
             ObjBTN = new Button();
+            CubeBTN = new Button();
+            ConeBTN = new Button();
+            CylinderBTN = new Button();
+            SphereBTN = new Button();
+            SemiSphere = new Button();
             ((System.ComponentModel.ISupportInitialize)PCT_CANVAS).BeginInit();
             SuspendLayout();
             // 
@@ -104,12 +109,67 @@
             ObjBTN.UseVisualStyleBackColor = true;
             ObjBTN.Click += ObjBTN_Click;
             // 
+            // CubeBTN
+            // 
+            CubeBTN.Location = new Point(82, 559);
+            CubeBTN.Name = "CubeBTN";
+            CubeBTN.Size = new Size(75, 23);
+            CubeBTN.TabIndex = 7;
+            CubeBTN.Text = "Cube";
+            CubeBTN.UseVisualStyleBackColor = true;
+            CubeBTN.Click += CubeBTN_Click;
+            // 
+            // ConeBTN
+            // 
+            ConeBTN.Location = new Point(195, 559);
+            ConeBTN.Name = "ConeBTN";
+            ConeBTN.Size = new Size(75, 23);
+            ConeBTN.TabIndex = 8;
+            ConeBTN.Text = "Cone";
+            ConeBTN.UseVisualStyleBackColor = true;
+            ConeBTN.Click += ConeBTN_Click;
+            // 
+            // CylinderBTN
+            // 
+            CylinderBTN.Location = new Point(298, 559);
+            CylinderBTN.Name = "CylinderBTN";
+            CylinderBTN.Size = new Size(75, 23);
+            CylinderBTN.TabIndex = 9;
+            CylinderBTN.Text = "Cylinder";
+            CylinderBTN.UseVisualStyleBackColor = true;
+            CylinderBTN.Click += CylinderBTN_Click;
+            // 
+            // SphereBTN
+            // 
+            SphereBTN.Location = new Point(403, 559);
+            SphereBTN.Name = "SphereBTN";
+            SphereBTN.Size = new Size(75, 23);
+            SphereBTN.TabIndex = 10;
+            SphereBTN.Text = "Sphere";
+            SphereBTN.UseVisualStyleBackColor = true;
+            SphereBTN.Click += SphereBTN_Click;
+            // 
+            // SemiSphere
+            // 
+            SemiSphere.Location = new Point(508, 559);
+            SemiSphere.Name = "SemiSphere";
+            SemiSphere.Size = new Size(88, 23);
+            SemiSphere.TabIndex = 11;
+            SemiSphere.Text = "Semi Sphere";
+            SemiSphere.UseVisualStyleBackColor = true;
+            SemiSphere.Click += SemiSphere_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1028, 609);
+            Controls.Add(SemiSphere);
+            Controls.Add(SphereBTN);
+            Controls.Add(CylinderBTN);
+            Controls.Add(ConeBTN);
+            Controls.Add(CubeBTN);
             Controls.Add(ObjBTN);
             Controls.Add(PCT_CANVAS);
             Controls.Add(rotBTN4);
@@ -130,5 +190,10 @@
         private System.Windows.Forms.Timer rotTimer;
         private PictureBox PCT_CANVAS;
         private Button ObjBTN;
+        private Button CubeBTN;
+        private Button ConeBTN;
+        private Button CylinderBTN;
+        private Button SphereBTN;
+        private Button SemiSphere;
     }
 }
