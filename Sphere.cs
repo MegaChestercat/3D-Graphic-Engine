@@ -20,6 +20,8 @@ namespace Optimized_3D_Graphic_Engine
                 float north_Z = (float)Math.Sin(northPoleLatitude) * radius;
                 float northRadius_Z = (float)Math.Cos(northPoleLatitude) * radius;
 
+                bool isSouthPole = i == 0;
+
                 for (int j = 0; j < numSegments; j++)
                 {
                     float LeftEdgeLng = (float)(2 * Math.PI * (float)(j - 1) / numSegments);
@@ -41,12 +43,12 @@ namespace Optimized_3D_Graphic_Engine
                     Vertex c = new Vertex(x3, y3, north_Z);
                     Vertex d = new Vertex(x4, y4, north_Z);
 
-                    if (i == 1)
+                    if (isSouthPole)
                     {
-                        triangles.Add(new Triangle(1, 2, 3, Color.Yellow));
+                        triangles.Add(new Triangle(vertices.Count + 1, vertices.Count, vertices.Count + 2, Color.Yellow));
 
                     }
-                    else 
+                    else
                     {
                         triangles.Add(new Triangle(vertices.Count, vertices.Count + 1, vertices.Count + 2, Color.Yellow));
                     }
@@ -56,8 +58,10 @@ namespace Optimized_3D_Graphic_Engine
                     vertices.Add(c);
                     vertices.Add(d);
                 }
+
             }
-            model = new Model(vertices.ToArray(), triangles.ToArray());
+            
+            model = new Model(vertices.ToArray(), triangles.ToArray(), new Vertex(0, 0, 0), (float)Math.Sqrt(3));
 
             return model;
 

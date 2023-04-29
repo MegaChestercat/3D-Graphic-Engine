@@ -111,7 +111,7 @@ namespace Optimized_3D_Graphic_Engine
 
         private void RenderFigures(Vertex[] vertices, Triangle[] triangles)
         {
-            model = new Model(vertices, triangles);
+            model = new Model(vertices, triangles, new Vertex(0, 0, 0), (float)Math.Sqrt(3));
             instances = new Instance[1];
             instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
         }
@@ -191,14 +191,15 @@ namespace Optimized_3D_Graphic_Engine
         {
             semi = false;
             model = Cube.CreateCube();
-            instances = new Instance[1];
+            instances = new Instance[2];
             instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
+            instances[1] = new Instance(model, new Vertex(0, 0, 6), Matrix.Identity, scale);
         }
 
         private void ConeBTN_Click(object sender, EventArgs e)
         {
             semi = false;
-            model = Cone.createCone(1f, 3f, 20);
+            model = Cone.createCone(1f, 3f, 20, false);
             instances = new Instance[1];
             instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
         }
@@ -206,7 +207,7 @@ namespace Optimized_3D_Graphic_Engine
         private void CylinderBTN_Click(object sender, EventArgs e)
         {
             semi = false;
-            model = Cylinder.createCylinder(1f, 3f, 20);
+            model = Cylinder.createCylinder(1f, 3f, 20, false);
             instances = new Instance[1];
             instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
         }
@@ -231,7 +232,7 @@ namespace Optimized_3D_Graphic_Engine
 
         private void ScaleField_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if(e.KeyChar == Convert.ToChar(Keys.Enter)) 
+            if (e.KeyChar == Convert.ToChar(Keys.Enter))
             {
                 try
                 {
@@ -257,6 +258,11 @@ namespace Optimized_3D_Graphic_Engine
                     MessageBox.Show("The value you set is invalid. \n\nPlease try again.");
                 }
             }
+        }
+
+        private void PCT_CANVAS_SizeChanged(object sender, EventArgs e)
+        {
+            Init();
         }
     }
 }

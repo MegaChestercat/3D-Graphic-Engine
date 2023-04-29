@@ -138,5 +138,16 @@
 
             return pts;
         }
+
+        public float Mag()
+        {
+            return (float)Math.Sqrt(xLoc * xLoc + yLoc * yLoc + zLoc * zLoc);
+        }
+
+        public Vertex Normalize()
+        {
+            float mag = this.Mag();
+            return new Vertex(xLoc / mag, yLoc / mag, zLoc / mag);
+        }
     }
 }

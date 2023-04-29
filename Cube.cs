@@ -33,7 +33,7 @@
                                             new Triangle(2, 7, 3, Color.Cyan)
             };
 
-            model = new Model(vertices, triangles);
+            model = new Model(vertices, triangles, new Vertex(0, 0, 0), (float)Math.Sqrt(3));
             return model;
         }
     }

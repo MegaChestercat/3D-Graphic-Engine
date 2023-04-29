@@ -56,7 +56,7 @@
                 }
             }
 
-            model = new Model(vertices.ToArray(), triangles.ToArray());
+            model = new Model(vertices.ToArray(), triangles.ToArray(), new Vertex(0, 0, 0), (float)Math.Sqrt(3));
             return model;
         }
     }

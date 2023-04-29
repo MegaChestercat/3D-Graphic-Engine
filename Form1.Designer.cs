@@ -91,7 +91,7 @@
             // rotTimer
             // 
             rotTimer.Enabled = true;
-            rotTimer.Interval = 40;
+            rotTimer.Interval = 80;
             rotTimer.Tick += rotTimer_Tick;
             // 
             // PCT_CANVAS
@@ -102,6 +102,7 @@
             PCT_CANVAS.Size = new Size(845, 497);
             PCT_CANVAS.TabIndex = 5;
             PCT_CANVAS.TabStop = false;
+            PCT_CANVAS.SizeChanged += PCT_CANVAS_SizeChanged;
             // 
             // ObjBTN
             // 
