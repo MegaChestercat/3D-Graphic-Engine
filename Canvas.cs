@@ -10,6 +10,7 @@ using System.Security.Cryptography.Xml;
 using System.Security.Permissions;
 using System.Threading.Tasks;
 using System.Windows.Markup;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Optimized_3D_Graphic_Engine
 {
@@ -26,8 +27,7 @@ namespace Optimized_3D_Graphic_Engine
         Vertex line1, line2;
         Vertex triangleNormal;
         float[,]depth_buffer;
-        float z;
-        //float[] z_segment;
+        
 
         Model cube;
         public Camera camera = new Camera(new Vertex(0, 0, 0), Matrix.RotY(0));
@@ -96,11 +96,11 @@ namespace Optimized_3D_Graphic_Engine
             depth_buffer = new float[width,height];
            // z_segment = new float[(int)Width];
 
-            for(int i = 0; i < height; i++)
+            for(int i = 0; i < width; i++)
             {
-                for(int j = 0; j < width; j++)
+                for(int j = 0; j < height; j++)
                 {
-                    depth_buffer[j, i] = 0;
+                    depth_buffer[i, j] = float.MaxValue;
                 }
             }
             ClippingPlanes(90);
@@ -115,7 +115,7 @@ namespace Optimized_3D_Graphic_Engine
                                     //new Instance(cube, new Vertex(  1.25f, 2.5f, 7.5f ), Matrix.RotY(195)),
                                     //new Instance(cube, new Vertex(     0,     0,  -10 ), Matrix.RotY(195))};
             */
-            
+
             Render(instances);
         }
 
@@ -166,21 +166,49 @@ namespace Optimized_3D_Graphic_Engine
         }
         private void Render(Instance[] i)
         {
+            for (int it = 0; it < depth_buffer.GetLength(0); it++)
+            {
+                for (int j = 0; j < depth_buffer.GetLength(1); j++)
+                {
+                    depth_buffer[it, j] = float.MaxValue;
+                }
+            }
             RenderScene(camera, i);
         }
-        public void PutPixel(int x, int y, Color c)
+        public void PutPixel(int x, int y, float z, Color c)
         {
             x = (int)(Width/2) + x;
             y = (int)(Height/2) - y -1;
 
             if (x < 0 || x >= Width || y < 0 || y >= Height) return;
 
-            int res = (int)((x * pixelFormatSize) + (y * stride)); //x an y point of your image. Stride is the complete size of a row and its multiply by x that is the number of rows
+            if(z < depth_buffer[(int)x, y])
+            {
+                int res = (int)((x * pixelFormatSize) + (y * stride)); //x an y point of your image. Stride is the complete size of a row and its multiply by x that is the number of rows
+
+                bits[res + 0] = c.B;
+                bits[res + 1] = c.G;
+                bits[res + 2] = c.R;
+                bits[res + 3] = c.A; //Transparency
+
+                depth_buffer[(int)x, y] = z;
+            }
             
+        }
+        public void PutPixel(int x, int y, Color c)
+        {
+            x = (int)(Width / 2) + x;
+            y = (int)(Height / 2) - y - 1;
+
+            if (x < 0 || x >= Width || y < 0 || y >= Height) return;
+
+            int res = (int)((x * pixelFormatSize) + (y * stride)); //x an y point of your image. Stride is the complete size of a row and its multiply by x that is the number of rows
+
             bits[res + 0] = c.B;
             bits[res + 1] = c.G;
             bits[res + 2] = c.R;
             bits[res + 3] = c.A; //Transparency
+
         }
 
         public void FastClear()
@@ -213,6 +241,14 @@ namespace Optimized_3D_Graphic_Engine
         public void Swap(ref Vertex p1, ref Vertex p2)
         {
             Vertex temp = p1;
+
+            p1 = p2;
+            p2 = temp;
+        }
+
+        public void Swap(ref Point p1, ref Point p2)
+        {
+            Point temp = p1;
 
             p1 = p2;
             p2 = temp;
@@ -281,12 +317,18 @@ namespace Optimized_3D_Graphic_Engine
             {
                 DrawFilledTriangle(projected[triangle.v0], projected[triangle.v1], projected[triangle.v2], triangle.color);
             }
-            //DrawWireFrameTriangle(projected[triangle.v0], projected[triangle.v1], projected[triangle.v2], triangle.color);
         }
 
         
-        public void DrawFilledTriangle(Vertex p1, Vertex p2, Vertex p3, Color c)
+        public void DrawFilledTriangle(Vertex a, Vertex b, Vertex d, Color c)
         {
+            Point p1 = new Point((int)a.X, (int)a.Y);
+            int z0 = (int)a.Z;
+            Point p2 = new Point((int)b.X, (int)b.Y);
+            int z1 = (int)b.Z;
+            Point p3 = new Point((int)d.X, (int)d.Y);
+            int z2 = (int)d.Z;
+            
             if (p2.Y < p1.Y) Swap(ref p2, ref p1);
             if (p3.Y < p1.Y) Swap(ref p3, ref p1);
             if (p3.Y < p2.Y) Swap(ref p3, ref p2);
@@ -298,65 +340,72 @@ namespace Optimized_3D_Graphic_Engine
             x12 = Interpolate(p2.Y, p2.X, p3.Y, p3.X);
             x02 = Interpolate(p1.Y, p1.X, p3.Y, p3.X);
 
-            z01 = Interpolate(p1.Z, p1.X, p2.Z, p2.X);
-            z12 = Interpolate(p2.Z, p2.X, p3.Z, p3.X);
-            z02 = Interpolate(p1.Z, p1.X, p3.Z, p3.X);
+            z01 = Interpolate(p1.Y, (float)1/z0, p2.Y, (float)1/z1);
+            z12 = Interpolate(p2.Y, (float)1/z1, p3.Y, (float)1/z2);
+            z02 = Interpolate(p1.Y, (float)1/z0, p3.Y, (float)1/z2);
 
-            //remove_last(x01);
-            //Array.Resize(ref x01, x01.Length - 1);
-            //x012 = x01.Concat(x12).ToArray();
             x012 = new List<float>();
+            z012 = new List<float>();
+
+            x01.RemoveAt(x01.Count - 1);
+            z01.RemoveAt(z01.Count - 1);
+            
             x012.AddRange(x01);
             x012.AddRange(x12);
-
-            z012 = new List<float>();
             z012.AddRange(z01);
             z012.AddRange(z12);
 
             int m = x02.Count / 2;
-            int m2 = z02.Count / 2;
-            List<float> x_left, x_right;
-            List<float> z_left, z_right;
 
-            if (x02[m] < x012[m])
+            if (m >= 0 && m < x02.Count && m < x012.Count)
             {
-                x_left = x02;
-                x_right = x012;
-            }
-            else
-            {
-                x_left = x012;
-                x_right = x02;
-            }
+                List<float> x_left, x_right, z_left, z_right;
 
-            if (z02[m2] < z012[m2])
-            {
-                z_left = z02;
-                z_right = z012;
-            }
-            else
-            {
-                z_left = z012;
-                z_right = z02;
-            }
-
-            for (int y = (int)p1.Y; y < p3.Y; y++)
-            {
-                
-                if(y - (int)p1.Y >= 0 && y - (int)p1.Y < x_left.Count && y - (int)p1.Y < x_right.Count)
+                if (x02[m] < x012[m])
                 {
-                    for (int x = (int)x_left[y - (int)p1.Y]; x < (int)x_right[y - (int)p1.Y]; x++)
-                    {
-                        z = (int)(x_right[(int)x - (int)p1.X] - x_left[(int)x - (int)p1.X]);
-                        if(z <= depth_buffer[x,y])
-                        {
-                            PutPixel(x, y, c);
-                            depth_buffer[x,y] = z;
-                        }
-                        
-                    }
+                    x_left = x02;
+                    x_right = x012;
+
+                    z_left = z02;
+                    z_right = z012;
                 }
-                
+                else
+                {
+                    x_left = x012;
+                    x_right = x02;
+
+                    z_left = z012;
+                    z_right = z02;
+                }
+
+                for (int y = p1.Y; y < p3.Y; y++)
+                {
+                    int val = y - p1.Y;
+                    float x_l = x_left[val];
+                    float x_r = x_right[val];
+                    List<float> z_segment = Interpolate(x_l, z_left[val], x_r, z_right[val]);
+                    Inverse(ref z_segment);
+                    for (float x = x_l; x <= x_r; x++)
+                    {
+                        int auxIndex = (int)Math.Round(x - x_l);
+                        if (auxIndex >= 0 && auxIndex < z_segment.Count)
+                        {
+                            float z = z_segment[auxIndex];
+                            PutPixel((int)x, y, z, c);
+                        }
+
+                    }
+
+                }
+            }
+
+        }
+
+        private void Inverse(ref List<float> t)
+        {
+            for (int i = 0; i < t.Count; i++)
+            {
+                t[i] = 1.0f / t[i];
             }
         }
 
@@ -375,7 +424,6 @@ namespace Optimized_3D_Graphic_Engine
 
             if (in_count == 0)
             {
-                //Console.WriteLine("count zero");
                 // Nothing to do - the triangle is fully clipped out.
             }
             else if (in_count == 3)
@@ -385,12 +433,10 @@ namespace Optimized_3D_Graphic_Engine
             }
             else if (in_count == 1)// one positive  
             {
-                //Console.WriteLine("count one");
                 // The triangle has one vertex in. Output is one clipped triangle.
             }
             else if (in_count == 2)// one negative
             {
-                //Console.WriteLine("count two");
                 // The triangle has two vertices in. Output is two clipped triangles.
             }
 
