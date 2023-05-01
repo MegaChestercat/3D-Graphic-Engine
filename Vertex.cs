@@ -125,19 +125,19 @@
             return new Vertex(v1.X * b, v1.Y * b, v1.Z * b);
         }
 
-        public static Vertex operator *(Matrix m, Vertex v) // 3D vector
-        {
-            Vertex pts;
+        //public static Vertex operator *(Matrix m, Vertex v) // 3D vector
+        //{
+        //    Vertex pts;
 
-            pts = new Vertex(0f, 0f, 0f);
+        //    pts = new Vertex(0f, 0f, 0f);
 
-            pts.X = (m[0, 0] * v.X) + (m[0, 1] * v.Y) + (m[0, 2] * v.Z) + (m[0, 3] * v.W);
-            pts.Y = (m[1, 0] * v.X) + (m[1, 1] * v.Y) + (m[1, 2] * v.Z) + (m[1, 3] * v.W);
-            pts.Z = (m[2, 0] * v.X) + (m[2, 1] * v.Y) + (m[2, 2] * v.Z) + (m[2, 3] * v.W);
-            pts.W = (m[3, 0] * v.X) + (m[3, 1] * v.Y) + (m[3, 2] * v.Z) + (m[3, 3] * v.W);
+        //    pts.X = (m[0, 0] * v.X) + (m[0, 1] * v.Y) + (m[0, 2] * v.Z) + (m[0, 3] * v.W);
+        //    pts.Y = (m[1, 0] * v.X) + (m[1, 1] * v.Y) + (m[1, 2] * v.Z) + (m[1, 3] * v.W);
+        //    pts.Z = (m[2, 0] * v.X) + (m[2, 1] * v.Y) + (m[2, 2] * v.Z) + (m[2, 3] * v.W);
+        //    pts.W = (m[3, 0] * v.X) + (m[3, 1] * v.Y) + (m[3, 2] * v.Z) + (m[3, 3] * v.W);
 
-            return pts;
-        }
+        //    return pts;
+        //}
 
         public float Mag()
         {

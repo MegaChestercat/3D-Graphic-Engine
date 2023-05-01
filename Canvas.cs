@@ -1,16 +1,5 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Numerics;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography.Xml;
-using System.Security.Permissions;
-using System.Threading.Tasks;
-using System.Windows.Markup;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Optimized_3D_Graphic_Engine
 {
@@ -26,7 +15,7 @@ namespace Optimized_3D_Graphic_Engine
         float projection_plane_z = 1;
         Vertex line1, line2;
         Vertex triangleNormal;
-        float[,]depth_buffer;
+        float[,] depth_buffer;
         public bool wireframe = false;
         public bool fill = true;
         public Color figureColor;
@@ -38,7 +27,7 @@ namespace Optimized_3D_Graphic_Engine
 
         Model cube;
         public Camera camera;
-        Instance[] instances;
+        public List<Instance> instances;
 
         public Bitmap Bitmap
         {
@@ -71,13 +60,13 @@ namespace Optimized_3D_Graphic_Engine
             bitmap = new Bitmap(width, height, stride, format, bitPtr);
 
             g = Graphics.FromImage(bitmap);
-            depth_buffer = new float[width,height];
+            depth_buffer = new float[width, height];
             figureColor = Color.White;
             camera = new Camera(new Vertex(camX, camY, camZ), Matrix.RotY(0));
 
             for (int i = 0; i < width; i++)
             {
-                for(int j = 0; j < height; j++)
+                for (int j = 0; j < height; j++)
                 {
                     depth_buffer[i, j] = float.MaxValue;
                 }
@@ -100,7 +89,7 @@ namespace Optimized_3D_Graphic_Engine
                 ClippingPlanes(fovValue);
                 fovChanged = false;
             }
-            if(cameraValueChanged) camera = new Camera(new Vertex(camX, camY, camZ), Matrix.RotY(0));
+            if (cameraValueChanged) camera = new Camera(new Vertex(camX, camY, camZ), Matrix.RotY(0));
             Render(instances);
         }
 
@@ -162,12 +151,12 @@ namespace Optimized_3D_Graphic_Engine
         }
         public void PutPixel(int x, int y, float z, Color c)
         {
-            x = (int)(Width/2) + x;
-            y = (int)(Height/2) - y -1;
+            x = (int)(Width / 2) + x;
+            y = (int)(Height / 2) - y - 1;
 
             if (x < 0 || x >= Width || y < 0 || y >= Height) return;
 
-            if(z < depth_buffer[(int)x, y])
+            if (z < depth_buffer[(int)x, y])
             {
                 int res = (int)((x * pixelFormatSize) + (y * stride)); //x an y point of your image. Stride is the complete size of a row and its multiply by x that is the number of rows
 
@@ -178,7 +167,7 @@ namespace Optimized_3D_Graphic_Engine
 
                 depth_buffer[(int)x, y] = z;
             }
-            
+
         }
         public void PutPixel(int x, int y, Color c)
         {
@@ -243,7 +232,7 @@ namespace Optimized_3D_Graphic_Engine
         {
             if (i0 == i1)
             {
-                return new List<float>(){ d0 };
+                return new List<float>() { d0 };
             }
 
             List<float> values = new List<float>();
@@ -300,12 +289,12 @@ namespace Optimized_3D_Graphic_Engine
         {
             if (triangleNormal.X * (vertices[triangle.v0].X - camera.position.X) + triangleNormal.Y * (vertices[triangle.v0].Y - camera.position.Y) + triangleNormal.Z * (vertices[triangle.v0].Z - camera.position.Z) <= 0)
             {
-                if(fill) DrawFilledTriangle(projected[triangle.v0], projected[triangle.v1], projected[triangle.v2], figureColor); //In order to use the color that is stated on the figures its possible to change "figureColor" by "triangle.color".
-                else if(wireframe) DrawWireFrameTriangle(projected[triangle.v0], projected[triangle.v1], projected[triangle.v2], figureColor);
+                if (fill) DrawFilledTriangle(projected[triangle.v0], projected[triangle.v1], projected[triangle.v2], figureColor); //In order to use the color that is stated on the figures its possible to change "figureColor" by "triangle.color".
+                else if (wireframe) DrawWireFrameTriangle(projected[triangle.v0], projected[triangle.v1], projected[triangle.v2], figureColor);
             }
         }
 
-        
+
         public void DrawFilledTriangle(Vertex a, Vertex b, Vertex d, Color c)
         {
             Point p1 = new Point((int)a.X, (int)a.Y);
@@ -314,7 +303,7 @@ namespace Optimized_3D_Graphic_Engine
             int z1 = (int)b.Z;
             Point p3 = new Point((int)d.X, (int)d.Y);
             int z2 = (int)d.Z;
-            
+
             if (p2.Y < p1.Y) Swap(ref p2, ref p1);
             if (p3.Y < p1.Y) Swap(ref p3, ref p1);
             if (p3.Y < p2.Y) Swap(ref p3, ref p2);
@@ -326,16 +315,16 @@ namespace Optimized_3D_Graphic_Engine
             x12 = Interpolate(p2.Y, p2.X, p3.Y, p3.X);
             x02 = Interpolate(p1.Y, p1.X, p3.Y, p3.X);
 
-            z01 = Interpolate(p1.Y, (float)1/z0, p2.Y, (float)1/z1);
-            z12 = Interpolate(p2.Y, (float)1/z1, p3.Y, (float)1/z2);
-            z02 = Interpolate(p1.Y, (float)1/z0, p3.Y, (float)1/z2);
+            z01 = Interpolate(p1.Y, (float)1 / z0, p2.Y, (float)1 / z1);
+            z12 = Interpolate(p2.Y, (float)1 / z1, p3.Y, (float)1 / z2);
+            z02 = Interpolate(p1.Y, (float)1 / z0, p3.Y, (float)1 / z2);
 
             x012 = new List<float>();
             z012 = new List<float>();
 
             x01.RemoveAt(x01.Count - 1);
             z01.RemoveAt(z01.Count - 1);
-            
+
             x012.AddRange(x01);
             x012.AddRange(x12);
             z012.AddRange(z01);
@@ -465,7 +454,12 @@ namespace Optimized_3D_Graphic_Engine
 
             return new Model(vertices.ToArray(), triangles.ToArray(), center, model.bounds_radius);
         }
+        public void CalculateSteps(int initialFrame, int finalFrame)
+        {
 
+            for (int i = 0; i < instances.Count; i++)
+                instances[i].CalculateSteps(initialFrame, finalFrame);
+        }
         private void RenderModel(Model model)
         {
             List<Vertex> projected = new List<Vertex>();
@@ -478,7 +472,7 @@ namespace Optimized_3D_Graphic_Engine
 
             for (int i = 0; i < model.triangles.Length; i++)
             {
-                HiddenFaces(model.triangles[i],model.vertices);
+                HiddenFaces(model.triangles[i], model.vertices);
                 RenderTriangle(model.triangles[i], projected, model.vertices);
             }
         }
@@ -505,12 +499,46 @@ namespace Optimized_3D_Graphic_Engine
             {
                 transform = (cameraMatrix * instances[i].transform);
                 clipped = TransformAndClip(camera.clipping_planes.ToArray(), instances[i].model, instances[i].scale, transform);
-                
-                if(clipped != null)
+
+                if (clipped != null)
                 {
                     RenderModel(clipped);
                 }
             }
         }
+        public void Animate(int frame, int initialFrame)
+        {
+            //Console.WriteLine(frame + "|" + initialFrame);
+            for (int i = 0; i < instances.Count; i++)
+            {
+                MatrixTransform transformation = instances[i].FindTransformation(frame);
+                if (transformation == null)
+                {
+                    continue;
+                }
+                else if (frame == initialFrame)
+                {
+                    instances[i].transform = instances[i].initialTransform;
+                    return;
+                }
+                else
+                {
+                    instances[i].transform = transformation.matrix;
+                }
+
+            }
+        }
+        public void SaveFrame(int frame)
+        {
+            for (int i = 0; i < instances.Count; i++)
+            {
+                //Console.WriteLine(instances[i].transform.ToString());
+                instances[i].SaveTransformations(frame);
+            }
+            Console.WriteLine("-------------------------------------");
+        }
+
+
     }
+
 }

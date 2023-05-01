@@ -15,6 +15,9 @@ namespace Optimized_3D_Graphic_Engine
         bool MouseDownY = false;
         float translationX, translationY, translationZ;
         float rotationX, rotationY, rotationZ = 0;
+        bool play;
+        int initialFrame;
+        int finalFrame;
 
         public Form1()
         {
@@ -184,6 +187,16 @@ namespace Optimized_3D_Graphic_Engine
                         instances[1] = new Instance(model2, new Vertex(0, 0, 8), Matrix.Rotate(angle), scale);
                         angle += rotSpeed;
                     }
+                }
+                if (play)
+                    canvas.Animate(Frames.Value, initialFrame);
+                if (play)
+                {
+                    if (Frames.Value == Frames.Maximum)
+                        Frames.Value = 0;
+                    else
+                        Frames.Value++;
+                    //label1.Text = "Tiempo : " + ConvertirMilisegundosAString(TB_TIME.Value * TIMER.Interval);
                 }
 
                 PCT_CANVAS.Invalidate();
@@ -363,12 +376,40 @@ namespace Optimized_3D_Graphic_Engine
 
         private void PlayBTN_Click(object sender, EventArgs e)
         {
-
+            play = !play;
         }
 
         private void RecordBTN_Click(object sender, EventArgs e)
         {
+            if (canvas == null)
+                return;
+            if (initialFrame == -1)
+            {
+                initialFrame = Frames.Value;
+                canvas.SaveFrame(Frames.Value);
 
+            }
+            else if (finalFrame == -1)
+            {
+                finalFrame = Frames.Value;
+                canvas.SaveFrame(Frames.Value);
+                for (int i = 0; i < canvas.instances.Count; i++)
+                {
+                    Instance ints = canvas.instances[i];
+                    for (int j = 0; j < ints.transformations.Count; j++)
+                    {
+                        label2.Text += ints.transformations[j].ToString();
+
+                    }
+                }
+                canvas.CalculateSteps(initialFrame, finalFrame);
+
+
+            }
+            else
+            {
+                Console.WriteLine("ERROR");
+            }
         }
 
         private void XCoord_MouseDown(object sender, MouseEventArgs e)

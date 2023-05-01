@@ -124,6 +124,20 @@
             this.data = data;
         }
 
+        public static Vertex operator *(Matrix m, Vertex v) // 3D vector
+        {
+            Vertex pts;
+
+            pts = new Vertex(0f, 0f, 0f);
+
+            pts.X = (m[0, 0] * v.X) + (m[0, 1] * v.Y) + (m[0, 2] * v.Z) + (m[0, 3] * v.W);
+            pts.Y = (m[1, 0] * v.X) + (m[1, 1] * v.Y) + (m[1, 2] * v.Z) + (m[1, 3] * v.W);
+            pts.Z = (m[2, 0] * v.X) + (m[2, 1] * v.Y) + (m[2, 2] * v.Z) + (m[2, 3] * v.W);
+            pts.W = (m[3, 0] * v.X) + (m[3, 1] * v.Y) + (m[3, 2] * v.Z) + (m[3, 3] * v.W);
+
+            return pts;
+        }
+
         public static Matrix operator *(Matrix m, Matrix r)
         {
             Matrix res = new Matrix(new float[4, 4]);
@@ -151,6 +165,72 @@
             return res;
         }
 
+        public static Matrix operator -(Matrix m, Matrix r)
+        {
+            Matrix res = new Matrix(new float[4, 4]);
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    res[i, j] = m[i, j] - r[i, j];
+                }
+            }
+            return res;
+        }
+        public static Matrix operator +(Matrix m, Matrix r)
+        {
+            Matrix res = new Matrix(new float[4, 4]);
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    res[i, j] = m[i, j] + r[i, j];
+                }
+            }
+            return res;
+        }
+
         
+
+        public override string ToString()
+        {
+            string result = "";
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    result += data[i, j].ToString("F3").PadLeft(8) + "   ";
+                }
+                result += "\n";
+            }
+
+            return result;
+        }
+
+        public static Matrix operator /(Matrix m, float f)
+        {
+            Matrix result = new Matrix(new float[4, 4]);
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    result[i, j] = m[i, j] / f;
+                }
+            }
+            return result;
+        }
+        public static Matrix operator *(Matrix m, float f)
+        {
+            Matrix result = new Matrix(new float[4, 4]);
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    result[i, j] = m[i, j] * f;
+                }
+            }
+            return result;
+        }
     }
 }
