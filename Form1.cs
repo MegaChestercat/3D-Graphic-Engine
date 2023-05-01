@@ -354,5 +354,15 @@ namespace Optimized_3D_Graphic_Engine
             else if (CameraZ.Value > 0) canvas.camZ += 0.020f;
             canvas.cameraValueChanged = true;
         }
+
+        private void PlayBTN_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RecordBTN_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

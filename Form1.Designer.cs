@@ -62,8 +62,8 @@
             Frames = new TrackBar();
             label10 = new Label();
             DrawMode = new ComboBox();
-            button1 = new Button();
-            button2 = new Button();
+            RecordBTN = new Button();
+            PlayBTN = new Button();
             checkBox1 = new CheckBox();
             button3 = new Button();
             label11 = new Label();
@@ -78,6 +78,7 @@
             label15 = new Label();
             radioButton1 = new RadioButton();
             radioButton2 = new RadioButton();
+            TransformationsBox = new GroupBox();
             ((System.ComponentModel.ISupportInitialize)PCT_CANVAS).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Scale).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Speed).BeginInit();
@@ -411,23 +412,25 @@
             DrawMode.TabIndex = 34;
             DrawMode.SelectedIndexChanged += DrawMode_SelectedIndexChanged;
             // 
-            // button1
+            // RecordBTN
             // 
-            button1.Location = new Point(37, 558);
-            button1.Name = "button1";
-            button1.Size = new Size(127, 23);
-            button1.TabIndex = 35;
-            button1.Text = "Record Point";
-            button1.UseVisualStyleBackColor = true;
+            RecordBTN.Location = new Point(37, 558);
+            RecordBTN.Name = "RecordBTN";
+            RecordBTN.Size = new Size(127, 23);
+            RecordBTN.TabIndex = 35;
+            RecordBTN.Text = "Record Point";
+            RecordBTN.UseVisualStyleBackColor = true;
+            RecordBTN.Click += RecordBTN_Click;
             // 
-            // button2
+            // PlayBTN
             // 
-            button2.Location = new Point(37, 587);
-            button2.Name = "button2";
-            button2.Size = new Size(127, 23);
-            button2.TabIndex = 36;
-            button2.Text = "Play Animation";
-            button2.UseVisualStyleBackColor = true;
+            PlayBTN.Location = new Point(37, 587);
+            PlayBTN.Name = "PlayBTN";
+            PlayBTN.Size = new Size(127, 23);
+            PlayBTN.TabIndex = 36;
+            PlayBTN.Text = "Play Animation";
+            PlayBTN.UseVisualStyleBackColor = true;
+            PlayBTN.Click += PlayBTN_Click;
             // 
             // checkBox1
             // 
@@ -535,7 +538,7 @@
             // radioButton1
             // 
             radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(1144, 219);
+            radioButton1.Location = new Point(1109, 474);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new Size(82, 19);
             radioButton1.TabIndex = 48;
@@ -546,7 +549,7 @@
             // radioButton2
             // 
             radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(1143, 244);
+            radioButton2.Location = new Point(1109, 512);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new Size(70, 19);
             radioButton2.TabIndex = 49;
@@ -554,11 +557,21 @@
             radioButton2.Text = "Rotation";
             radioButton2.UseVisualStyleBackColor = true;
             // 
+            // TransformationsBox
+            // 
+            TransformationsBox.Location = new Point(1126, 171);
+            TransformationsBox.Name = "TransformationsBox";
+            TransformationsBox.Size = new Size(111, 100);
+            TransformationsBox.TabIndex = 50;
+            TransformationsBox.TabStop = false;
+            TransformationsBox.Text = "Transformations";
+            // 
             // Form1
             // 
             AutoScaleMode = AutoScaleMode.Inherit;
             BackColor = Color.Gray;
             ClientSize = new Size(1264, 681);
+            Controls.Add(TransformationsBox);
             Controls.Add(XCoord);
             Controls.Add(radioButton2);
             Controls.Add(radioButton1);
@@ -572,8 +585,8 @@
             Controls.Add(label11);
             Controls.Add(button3);
             Controls.Add(checkBox1);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(PlayBTN);
+            Controls.Add(RecordBTN);
             Controls.Add(DrawMode);
             Controls.Add(label10);
             Controls.Add(Frames);
@@ -659,8 +672,8 @@
         private TrackBar Frames;
         private Label label10;
         private ComboBox DrawMode;
-        private Button button1;
-        private Button button2;
+        private Button RecordBTN;
+        private Button PlayBTN;
         private CheckBox checkBox1;
         private Button button3;
         private Label label11;
@@ -675,5 +688,6 @@
         private Label label15;
         private RadioButton radioButton1;
         private RadioButton radioButton2;
+        private GroupBox TransformationsBox;
     }
 }
