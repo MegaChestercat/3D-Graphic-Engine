@@ -12,11 +12,17 @@ namespace Optimized_3D_Graphic_Engine
         int angle = 0;
         float scale = 0.75f;
         int rotSpeed = 2;
+        bool MouseDownY = false;
+        float translationX, translationY, translationZ;
+        float rotationX, rotationY, rotationZ = 0;
 
         public Form1()
         {
             InitializeComponent();
             Init();
+            translationX = 0;
+            translationY = 0;
+            translationZ = 8;
         }
 
         public void Init()
@@ -127,7 +133,7 @@ namespace Optimized_3D_Graphic_Engine
                 {
                     if (semi == false)
                     {
-                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotX(angle), scale);
+                        instances[0] = new Instance(model, new Vertex(translationX, translationY, translationZ), Matrix.RotX(angle), scale);
                         angle += rotSpeed;
                     }
                     else
@@ -363,6 +369,70 @@ namespace Optimized_3D_Graphic_Engine
         private void RecordBTN_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void XCoord_MouseDown(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void XCoord_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (TranslationBTN.Checked == true)
+            {
+                if (XCoord.Value < 0) translationX -= 0.010f;
+                else if (XCoord.Value > 0) translationX += 0.010f;
+            }
+            if (RotationBTN.Checked == true)
+            {
+                if (YCoord.Value < 0) rotationX -= 10;
+                else if (YCoord.Value > 0) rotationX += 10;
+                x = true;
+            }
+        }
+
+        private void XCoord_MouseUp(object sender, MouseEventArgs e)
+        {
+            XCoord.Value = 0;
+        }
+
+        private void YCoord_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (TranslationBTN.Checked == true)
+            {
+                if (YCoord.Value < 0) translationY -= 0.010f;
+                else if (YCoord.Value > 0) translationY += 0.010f;
+            }
+            if (RotationBTN.Checked == true)
+            {
+                if (YCoord.Value < 0) rotationY -= 10;
+                else if (YCoord.Value > 0) rotationY += 10;
+            }
+        }
+
+        private void YCoord_MouseUp(object sender, MouseEventArgs e)
+        {
+            YCoord.Value = 0;
+        }
+
+        private void ZCoord_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (TranslationBTN.Checked == true)
+            {
+                if (ZCoord.Value < 0) translationZ -= 0.010f;
+                else if (ZCoord.Value > 0) translationZ += 0.010f;
+            }
+            if (RotationBTN.Checked == true)
+            {
+                if (YCoord.Value < 0) rotationZ -= 10;
+                else if (YCoord.Value > 0) rotationZ += 10;
+
+            }
+        }
+
+        private void ZCoord_MouseUp(object sender, MouseEventArgs e)
+        {
+            ZCoord.Value = 0;
         }
     }
 }

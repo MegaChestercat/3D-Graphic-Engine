@@ -76,8 +76,8 @@
             label13 = new Label();
             label14 = new Label();
             label15 = new Label();
-            radioButton1 = new RadioButton();
-            radioButton2 = new RadioButton();
+            TranslationBTN = new RadioButton();
+            RotationBTN = new RadioButton();
             TransformationsBox = new GroupBox();
             ((System.ComponentModel.ISupportInitialize)PCT_CANVAS).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Scale).BeginInit();
@@ -91,6 +91,7 @@
             ((System.ComponentModel.ISupportInitialize)XCoord).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ZCoord).BeginInit();
             ((System.ComponentModel.ISupportInitialize)YCoord).BeginInit();
+            TransformationsBox.SuspendLayout();
             SuspendLayout();
             // 
             // rotBTN
@@ -488,6 +489,8 @@
             XCoord.Name = "XCoord";
             XCoord.Size = new Size(131, 45);
             XCoord.TabIndex = 42;
+            XCoord.MouseMove += XCoord_MouseMove;
+            XCoord.MouseUp += XCoord_MouseUp;
             // 
             // ZCoord
             // 
@@ -496,6 +499,8 @@
             ZCoord.Name = "ZCoord";
             ZCoord.Size = new Size(131, 45);
             ZCoord.TabIndex = 43;
+            ZCoord.MouseMove += ZCoord_MouseMove;
+            ZCoord.MouseUp += ZCoord_MouseUp;
             // 
             // YCoord
             // 
@@ -504,6 +509,8 @@
             YCoord.Name = "YCoord";
             YCoord.Size = new Size(131, 45);
             YCoord.TabIndex = 44;
+            YCoord.MouseMove += YCoord_MouseMove;
+            YCoord.MouseUp += YCoord_MouseUp;
             // 
             // label13
             // 
@@ -535,30 +542,33 @@
             label15.TabIndex = 47;
             label15.Text = "Z";
             // 
-            // radioButton1
+            // TranslationBTN
             // 
-            radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(1109, 474);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(82, 19);
-            radioButton1.TabIndex = 48;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "Translation";
-            radioButton1.UseVisualStyleBackColor = true;
+            TranslationBTN.AutoSize = true;
+            TranslationBTN.Checked = true;
+            TranslationBTN.Location = new Point(6, 22);
+            TranslationBTN.Name = "TranslationBTN";
+            TranslationBTN.Size = new Size(82, 19);
+            TranslationBTN.TabIndex = 48;
+            TranslationBTN.TabStop = true;
+            TranslationBTN.Text = "Translation";
+            TranslationBTN.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // RotationBTN
             // 
-            radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(1109, 512);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(70, 19);
-            radioButton2.TabIndex = 49;
-            radioButton2.TabStop = true;
-            radioButton2.Text = "Rotation";
-            radioButton2.UseVisualStyleBackColor = true;
+            RotationBTN.AutoSize = true;
+            RotationBTN.Location = new Point(6, 47);
+            RotationBTN.Name = "RotationBTN";
+            RotationBTN.Size = new Size(70, 19);
+            RotationBTN.TabIndex = 49;
+            RotationBTN.TabStop = true;
+            RotationBTN.Text = "Rotation";
+            RotationBTN.UseVisualStyleBackColor = true;
             // 
             // TransformationsBox
             // 
+            TransformationsBox.Controls.Add(TranslationBTN);
+            TransformationsBox.Controls.Add(RotationBTN);
             TransformationsBox.Location = new Point(1126, 171);
             TransformationsBox.Name = "TransformationsBox";
             TransformationsBox.Size = new Size(111, 100);
@@ -573,8 +583,6 @@
             ClientSize = new Size(1264, 681);
             Controls.Add(TransformationsBox);
             Controls.Add(XCoord);
-            Controls.Add(radioButton2);
-            Controls.Add(radioButton1);
             Controls.Add(label15);
             Controls.Add(label14);
             Controls.Add(label13);
@@ -634,6 +642,8 @@
             ((System.ComponentModel.ISupportInitialize)XCoord).EndInit();
             ((System.ComponentModel.ISupportInitialize)ZCoord).EndInit();
             ((System.ComponentModel.ISupportInitialize)YCoord).EndInit();
+            TransformationsBox.ResumeLayout(false);
+            TransformationsBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -686,8 +696,8 @@
         private Label label13;
         private Label label14;
         private Label label15;
-        private RadioButton radioButton1;
-        private RadioButton radioButton2;
+        private RadioButton TranslationBTN;
+        private RadioButton RotationBTN;
         private GroupBox TransformationsBox;
     }
 }
