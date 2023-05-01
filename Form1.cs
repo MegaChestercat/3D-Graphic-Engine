@@ -264,5 +264,19 @@ namespace Optimized_3D_Graphic_Engine
         {
             Init();
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                ColorViewer.BackColor = colorDialog1.Color;
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            colorDialog1.Color = Color.Yellow;
+            ColorViewer.BackColor = colorDialog1.Color;
+        }
     }
 }
