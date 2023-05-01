@@ -2,6 +2,7 @@
 {
     public class Matrix
     {
+        public static int fovValue = 90;
         public float[,] data;
 
         public float this[int x, int y]
@@ -11,7 +12,7 @@
         }
         public static Matrix FOV()
         {
-            float a = 90; // aperture DEGREES
+            float a = fovValue; // aperture DEGREES
             float r = 1; // aspecto ratio
             float zNear = 1f;
             float zFar = 10000;

@@ -270,6 +270,7 @@ namespace Optimized_3D_Graphic_Engine
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 ColorViewer.BackColor = colorDialog1.Color;
+                canvas.figureColor = colorDialog1.Color;
             }
         }
 
@@ -277,6 +278,81 @@ namespace Optimized_3D_Graphic_Engine
         {
             colorDialog1.Color = Color.Yellow;
             ColorViewer.BackColor = colorDialog1.Color;
+            canvas.figureColor = colorDialog1.Color;
+        }
+
+        private void DrawMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (DrawMode.SelectedIndex == 0)
+            {
+                canvas.wireframe = true;
+                canvas.fill = false;
+            }
+            else if (DrawMode.SelectedIndex == 1)
+            {
+                canvas.fill = true;
+                canvas.wireframe = false;
+            }
+        }
+
+        private void Speed_MouseUp(object sender, MouseEventArgs e)
+        {
+            rotSpeed += Speed.Value;
+            RotField.Text = Convert.ToString(rotSpeed);
+            Speed.Value = 0;
+
+        }
+
+        private void Scale_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (Scale.Value < 0) scale -= 0.25f;
+            else if (Scale.Value >= 0) scale += 0.25f;
+            ScaleField.Text = Convert.ToString(scale);
+            Scale.Value = 0;
+        }
+
+        private void FOV_MouseUp(object sender, MouseEventArgs e)
+        {
+            canvas.fovValue += FOV.Value;
+            canvas.fovChanged = true;
+            FOV.Value = 0;
+
+        }
+
+        private void CameraX_MouseUp(object sender, MouseEventArgs e)
+        {
+            CameraX.Value = 0;
+        }
+
+        private void CameraY_MouseUp(object sender, MouseEventArgs e)
+        {
+            CameraY.Value = 0;
+        }
+
+        private void CameraZ_MouseUp(object sender, MouseEventArgs e)
+        {
+            CameraZ.Value = 0;
+        }
+
+        private void CameraX_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (CameraX.Value < 0) canvas.camX -= 0.020f;
+            else if (CameraX.Value > 0) canvas.camX += 0.020f;
+            canvas.cameraValueChanged = true;
+        }
+
+        private void CameraY_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (CameraY.Value < 0) canvas.camY -= 0.020f;
+            else if (CameraY.Value > 0) canvas.camY += 0.020f;
+            canvas.cameraValueChanged = true;
+        }
+
+        private void CameraZ_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (CameraZ.Value < 0) canvas.camZ -= 0.020f;
+            else if (CameraZ.Value > 0) canvas.camZ += 0.020f;
+            canvas.cameraValueChanged = true;
         }
     }
 }

@@ -27,10 +27,17 @@ namespace Optimized_3D_Graphic_Engine
         Vertex line1, line2;
         Vertex triangleNormal;
         float[,]depth_buffer;
-        
+        public bool wireframe = false;
+        public bool fill = true;
+        public Color figureColor;
+        public bool fovChanged = false;
+        public int fovValue = 90;
+        public float camX, camY, camZ = 0;
+        public bool cameraValueChanged = false;
+
 
         Model cube;
-        public Camera camera = new Camera(new Vertex(0, 0, 0), Matrix.RotY(0));
+        public Camera camera;
         Instance[] instances;
 
         public Bitmap Bitmap
@@ -42,35 +49,6 @@ namespace Optimized_3D_Graphic_Engine
         {
             Init(s.Width, s.Height);
         }
-
-        Vertex[] vertices = new Vertex[] {
-                                            new Vertex(1, 1, 1),
-                                            new Vertex(-1, 1, 1),
-                                            new Vertex(-1, -1, 1),
-                                            new Vertex(1, -1, 1),
-                                            new Vertex(1, 1, -1),
-                                            new Vertex(-1, 1, -1),
-                                            new Vertex(-1, -1, -1),
-                                            new Vertex(1, -1, -1)
-        };
-
-
-        Triangle[] triangles = new Triangle[] {
-                                            new Triangle(0, 1, 2, Color.Red),
-                                            new Triangle(0, 2, 3, Color.Red),
-                                            new Triangle(4, 0, 3, Color.Green),
-                                            new Triangle(4, 3, 7, Color.Green),
-                                            new Triangle(5, 4, 7, Color.Blue),//-----------------------
-                                            new Triangle(5, 7, 6, Color.Blue),
-                                            new Triangle(1, 5, 6, Color.Yellow),
-                                            new Triangle(1, 6, 2, Color.Yellow),
-                                            new Triangle(4, 5, 1, Color.Purple),
-                                            new Triangle(4, 1, 0, Color.Purple),
-                                            new Triangle(2, 6, 7, Color.Cyan),
-                                            new Triangle(2, 7, 3, Color.Cyan)
-        };
-
-        
 
         public void Init(int width, int height)
         {
@@ -94,9 +72,10 @@ namespace Optimized_3D_Graphic_Engine
 
             g = Graphics.FromImage(bitmap);
             depth_buffer = new float[width,height];
-           // z_segment = new float[(int)Width];
+            figureColor = Color.White;
+            camera = new Camera(new Vertex(camX, camY, camZ), Matrix.RotY(0));
 
-            for(int i = 0; i < width; i++)
+            for (int i = 0; i < width; i++)
             {
                 for(int j = 0; j < height; j++)
                 {
@@ -115,7 +94,13 @@ namespace Optimized_3D_Graphic_Engine
                                     //new Instance(cube, new Vertex(  1.25f, 2.5f, 7.5f ), Matrix.RotY(195)),
                                     //new Instance(cube, new Vertex(     0,     0,  -10 ), Matrix.RotY(195))};
             */
-
+            if (fovChanged)
+            {
+                Matrix.fovValue = fovValue;
+                ClippingPlanes(fovValue);
+                fovChanged = false;
+            }
+            if(cameraValueChanged) camera = new Camera(new Vertex(camX, camY, camZ), Matrix.RotY(0));
             Render(instances);
         }
 
@@ -315,7 +300,8 @@ namespace Optimized_3D_Graphic_Engine
         {
             if (triangleNormal.X * (vertices[triangle.v0].X - camera.position.X) + triangleNormal.Y * (vertices[triangle.v0].Y - camera.position.Y) + triangleNormal.Z * (vertices[triangle.v0].Z - camera.position.Z) <= 0)
             {
-                DrawFilledTriangle(projected[triangle.v0], projected[triangle.v1], projected[triangle.v2], triangle.color);
+                if(fill) DrawFilledTriangle(projected[triangle.v0], projected[triangle.v1], projected[triangle.v2], figureColor); //In order to use the color that is stated on the figures its possible to change "figureColor" by "triangle.color".
+                else if(wireframe) DrawWireFrameTriangle(projected[triangle.v0], projected[triangle.v1], projected[triangle.v2], figureColor);
             }
         }
 

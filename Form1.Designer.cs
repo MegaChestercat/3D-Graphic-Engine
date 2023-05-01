@@ -48,18 +48,18 @@
             treeView1 = new TreeView();
             label3 = new Label();
             label4 = new Label();
-            trackBar1 = new TrackBar();
-            trackBar2 = new TrackBar();
-            trackBar3 = new TrackBar();
+            Scale = new TrackBar();
+            Speed = new TrackBar();
+            CameraX = new TrackBar();
             label5 = new Label();
-            trackBar4 = new TrackBar();
-            trackBar5 = new TrackBar();
+            CameraY = new TrackBar();
+            CameraZ = new TrackBar();
             label6 = new Label();
             label7 = new Label();
             label8 = new Label();
             label9 = new Label();
-            trackBar6 = new TrackBar();
-            trackBar7 = new TrackBar();
+            FOV = new TrackBar();
+            Frames = new TrackBar();
             label10 = new Label();
             DrawMode = new ComboBox();
             button1 = new Button();
@@ -70,20 +70,31 @@
             label12 = new Label();
             ColorViewer = new PictureBox();
             colorDialog1 = new ColorDialog();
+            XCoord = new TrackBar();
+            ZCoord = new TrackBar();
+            YCoord = new TrackBar();
+            label13 = new Label();
+            label14 = new Label();
+            label15 = new Label();
+            radioButton1 = new RadioButton();
+            radioButton2 = new RadioButton();
             ((System.ComponentModel.ISupportInitialize)PCT_CANVAS).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar5).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar6).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar7).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Scale).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Speed).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)CameraX).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)CameraY).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)CameraZ).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)FOV).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Frames).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ColorViewer).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)XCoord).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ZCoord).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)YCoord).BeginInit();
             SuspendLayout();
             // 
             // rotBTN
             // 
-            rotBTN.Location = new Point(1121, 231);
+            rotBTN.Location = new Point(942, 587);
             rotBTN.Name = "rotBTN";
             rotBTN.Size = new Size(75, 23);
             rotBTN.TabIndex = 1;
@@ -93,7 +104,7 @@
             // 
             // rotBTN2
             // 
-            rotBTN2.Location = new Point(1121, 307);
+            rotBTN2.Location = new Point(1049, 587);
             rotBTN2.Name = "rotBTN2";
             rotBTN2.Size = new Size(75, 23);
             rotBTN2.TabIndex = 2;
@@ -103,7 +114,7 @@
             // 
             // rotBTN3
             // 
-            rotBTN3.Location = new Point(1121, 392);
+            rotBTN3.Location = new Point(942, 630);
             rotBTN3.Name = "rotBTN3";
             rotBTN3.Size = new Size(75, 23);
             rotBTN3.TabIndex = 3;
@@ -113,7 +124,7 @@
             // 
             // rotBTN4
             // 
-            rotBTN4.Location = new Point(1121, 462);
+            rotBTN4.Location = new Point(1049, 619);
             rotBTN4.Name = "rotBTN4";
             rotBTN4.Size = new Size(75, 46);
             rotBTN4.TabIndex = 4;
@@ -261,31 +272,37 @@
             label4.TabIndex = 18;
             label4.Text = "Add Default Figures:";
             // 
-            // trackBar1
+            // Scale
             // 
-            trackBar1.Location = new Point(202, 103);
-            trackBar1.Minimum = -10;
-            trackBar1.Name = "trackBar1";
-            trackBar1.Orientation = Orientation.Vertical;
-            trackBar1.Size = new Size(45, 168);
-            trackBar1.TabIndex = 19;
+            Scale.Location = new Point(202, 103);
+            Scale.Minimum = -10;
+            Scale.Name = "Scale";
+            Scale.Orientation = Orientation.Vertical;
+            Scale.Size = new Size(45, 168);
+            Scale.TabIndex = 19;
+            Scale.TickStyle = TickStyle.Both;
+            Scale.MouseUp += Scale_MouseUp;
             // 
-            // trackBar2
+            // Speed
             // 
-            trackBar2.Location = new Point(202, 330);
-            trackBar2.Minimum = -10;
-            trackBar2.Name = "trackBar2";
-            trackBar2.Orientation = Orientation.Vertical;
-            trackBar2.Size = new Size(45, 177);
-            trackBar2.TabIndex = 20;
+            Speed.Location = new Point(202, 330);
+            Speed.Minimum = -10;
+            Speed.Name = "Speed";
+            Speed.Orientation = Orientation.Vertical;
+            Speed.Size = new Size(45, 177);
+            Speed.TabIndex = 20;
+            Speed.TickStyle = TickStyle.Both;
+            Speed.MouseUp += Speed_MouseUp;
             // 
-            // trackBar3
+            // CameraX
             // 
-            trackBar3.Location = new Point(298, 584);
-            trackBar3.Minimum = -10;
-            trackBar3.Name = "trackBar3";
-            trackBar3.Size = new Size(138, 45);
-            trackBar3.TabIndex = 21;
+            CameraX.Location = new Point(298, 584);
+            CameraX.Minimum = -10;
+            CameraX.Name = "CameraX";
+            CameraX.Size = new Size(138, 45);
+            CameraX.TabIndex = 21;
+            CameraX.MouseMove += CameraX_MouseMove;
+            CameraX.MouseUp += CameraX_MouseUp;
             // 
             // label5
             // 
@@ -297,21 +314,25 @@
             label5.TabIndex = 24;
             label5.Text = "Camera Location:";
             // 
-            // trackBar4
+            // CameraY
             // 
-            trackBar4.Location = new Point(298, 619);
-            trackBar4.Minimum = -10;
-            trackBar4.Name = "trackBar4";
-            trackBar4.Size = new Size(138, 45);
-            trackBar4.TabIndex = 25;
+            CameraY.Location = new Point(298, 619);
+            CameraY.Minimum = -10;
+            CameraY.Name = "CameraY";
+            CameraY.Size = new Size(138, 45);
+            CameraY.TabIndex = 25;
+            CameraY.MouseMove += CameraY_MouseMove;
+            CameraY.MouseUp += CameraY_MouseUp;
             // 
-            // trackBar5
+            // CameraZ
             // 
-            trackBar5.Location = new Point(442, 600);
-            trackBar5.Minimum = -10;
-            trackBar5.Name = "trackBar5";
-            trackBar5.Size = new Size(138, 45);
-            trackBar5.TabIndex = 26;
+            CameraZ.Location = new Point(442, 600);
+            CameraZ.Minimum = -10;
+            CameraZ.Name = "CameraZ";
+            CameraZ.Size = new Size(138, 45);
+            CameraZ.TabIndex = 26;
+            CameraZ.MouseMove += CameraZ_MouseMove;
+            CameraZ.MouseUp += CameraZ_MouseUp;
             // 
             // label6
             // 
@@ -337,7 +358,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label8.Location = new Point(509, 584);
+            label8.Location = new Point(505, 584);
             label8.Name = "label8";
             label8.Size = new Size(14, 15);
             label8.TabIndex = 29;
@@ -353,21 +374,22 @@
             label9.TabIndex = 30;
             label9.Text = "FOV:";
             // 
-            // trackBar6
+            // FOV
             // 
-            trackBar6.Location = new Point(660, 600);
-            trackBar6.Minimum = -10;
-            trackBar6.Name = "trackBar6";
-            trackBar6.Size = new Size(131, 45);
-            trackBar6.TabIndex = 31;
+            FOV.Location = new Point(660, 600);
+            FOV.Minimum = -10;
+            FOV.Name = "FOV";
+            FOV.Size = new Size(131, 45);
+            FOV.TabIndex = 31;
+            FOV.MouseUp += FOV_MouseUp;
             // 
-            // trackBar7
+            // Frames
             // 
-            trackBar7.Location = new Point(271, 49);
-            trackBar7.Maximum = 100;
-            trackBar7.Name = "trackBar7";
-            trackBar7.Size = new Size(823, 45);
-            trackBar7.TabIndex = 32;
+            Frames.Location = new Point(271, 49);
+            Frames.Maximum = 100;
+            Frames.Name = "Frames";
+            Frames.Size = new Size(823, 45);
+            Frames.TabIndex = 32;
             // 
             // label10
             // 
@@ -382,10 +404,12 @@
             // DrawMode
             // 
             DrawMode.FormattingEnabled = true;
+            DrawMode.Items.AddRange(new object[] { "Wireframe", "Fill" });
             DrawMode.Location = new Point(1121, 123);
             DrawMode.Name = "DrawMode";
             DrawMode.Size = new Size(121, 23);
             DrawMode.TabIndex = 34;
+            DrawMode.SelectedIndexChanged += DrawMode_SelectedIndexChanged;
             // 
             // button1
             // 
@@ -417,9 +441,9 @@
             // 
             // button3
             // 
-            button3.Location = new Point(37, 619);
+            button3.Location = new Point(14, 621);
             button3.Name = "button3";
-            button3.Size = new Size(127, 23);
+            button3.Size = new Size(168, 23);
             button3.TabIndex = 38;
             button3.Text = "Change Animation Speed";
             button3.UseVisualStyleBackColor = true;
@@ -454,11 +478,95 @@
             ColorViewer.TabStop = false;
             ColorViewer.Click += pictureBox1_Click;
             // 
+            // XCoord
+            // 
+            XCoord.Location = new Point(1121, 289);
+            XCoord.Minimum = -10;
+            XCoord.Name = "XCoord";
+            XCoord.Size = new Size(131, 45);
+            XCoord.TabIndex = 42;
+            // 
+            // ZCoord
+            // 
+            ZCoord.Location = new Point(1121, 391);
+            ZCoord.Minimum = -10;
+            ZCoord.Name = "ZCoord";
+            ZCoord.Size = new Size(131, 45);
+            ZCoord.TabIndex = 43;
+            // 
+            // YCoord
+            // 
+            YCoord.Location = new Point(1121, 340);
+            YCoord.Minimum = -10;
+            YCoord.Name = "YCoord";
+            YCoord.Size = new Size(131, 45);
+            YCoord.TabIndex = 44;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label13.Location = new Point(1109, 289);
+            label13.Name = "label13";
+            label13.Size = new Size(15, 15);
+            label13.TabIndex = 45;
+            label13.Text = "X";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label14.Location = new Point(1109, 342);
+            label14.Name = "label14";
+            label14.Size = new Size(14, 15);
+            label14.TabIndex = 46;
+            label14.Text = "Y";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label15.Location = new Point(1109, 391);
+            label15.Name = "label15";
+            label15.Size = new Size(14, 15);
+            label15.TabIndex = 47;
+            label15.Text = "Z";
+            // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Location = new Point(1144, 219);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(82, 19);
+            radioButton1.TabIndex = 48;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "Translation";
+            radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new Point(1143, 244);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(70, 19);
+            radioButton2.TabIndex = 49;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "Rotation";
+            radioButton2.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleMode = AutoScaleMode.Inherit;
             BackColor = Color.Gray;
             ClientSize = new Size(1264, 681);
+            Controls.Add(XCoord);
+            Controls.Add(radioButton2);
+            Controls.Add(radioButton1);
+            Controls.Add(label15);
+            Controls.Add(label14);
+            Controls.Add(label13);
+            Controls.Add(YCoord);
+            Controls.Add(ZCoord);
             Controls.Add(ColorViewer);
             Controls.Add(label12);
             Controls.Add(label11);
@@ -468,18 +576,18 @@
             Controls.Add(button1);
             Controls.Add(DrawMode);
             Controls.Add(label10);
-            Controls.Add(trackBar7);
-            Controls.Add(trackBar6);
+            Controls.Add(Frames);
+            Controls.Add(FOV);
             Controls.Add(label9);
             Controls.Add(label8);
             Controls.Add(label7);
             Controls.Add(label6);
-            Controls.Add(trackBar5);
-            Controls.Add(trackBar4);
+            Controls.Add(CameraZ);
+            Controls.Add(CameraY);
             Controls.Add(label5);
-            Controls.Add(trackBar3);
-            Controls.Add(trackBar2);
-            Controls.Add(trackBar1);
+            Controls.Add(CameraX);
+            Controls.Add(Speed);
+            Controls.Add(Scale);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(treeView1);
@@ -502,14 +610,17 @@
             Text = "Form1";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)PCT_CANVAS).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar5).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar6).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar7).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Scale).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Speed).EndInit();
+            ((System.ComponentModel.ISupportInitialize)CameraX).EndInit();
+            ((System.ComponentModel.ISupportInitialize)CameraY).EndInit();
+            ((System.ComponentModel.ISupportInitialize)CameraZ).EndInit();
+            ((System.ComponentModel.ISupportInitialize)FOV).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Frames).EndInit();
             ((System.ComponentModel.ISupportInitialize)ColorViewer).EndInit();
+            ((System.ComponentModel.ISupportInitialize)XCoord).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ZCoord).EndInit();
+            ((System.ComponentModel.ISupportInitialize)YCoord).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -534,18 +645,18 @@
         private TreeView treeView1;
         private Label label3;
         private Label label4;
-        private TrackBar trackBar1;
-        private TrackBar trackBar2;
-        private TrackBar trackBar3;
+        private TrackBar Scale;
+        private TrackBar Speed;
+        private TrackBar CameraX;
         private Label label5;
-        private TrackBar trackBar4;
-        private TrackBar trackBar5;
+        private TrackBar CameraY;
+        private TrackBar CameraZ;
         private Label label6;
         private Label label7;
         private Label label8;
         private Label label9;
-        private TrackBar trackBar6;
-        private TrackBar trackBar7;
+        private TrackBar FOV;
+        private TrackBar Frames;
         private Label label10;
         private ComboBox DrawMode;
         private Button button1;
@@ -556,5 +667,13 @@
         private Label label12;
         private PictureBox ColorViewer;
         private ColorDialog colorDialog1;
+        private TrackBar XCoord;
+        private TrackBar ZCoord;
+        private TrackBar YCoord;
+        private Label label13;
+        private Label label14;
+        private Label label15;
+        private RadioButton radioButton1;
+        private RadioButton radioButton2;
     }
 }
