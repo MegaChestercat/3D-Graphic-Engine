@@ -1,15 +1,16 @@
+using System.Net;
 using System.Numerics;
+using System.Security.Cryptography.Xml;
 
 namespace Optimized_3D_Graphic_Engine
 {
     public partial class Form1 : Form
     {
 
-        bool x, y, z, all, semi = false;
         Canvas canvas;
         Instance[] instances;
-        Model model, model2;
-        int angle = 0;
+        Model model;
+        Instance currentInstance;
         float scale = 0.75f;
         int rotSpeed = 2;
         bool MouseDownY = false;
@@ -18,14 +19,13 @@ namespace Optimized_3D_Graphic_Engine
         bool play;
         int initialFrame;
         int finalFrame;
+        String figName;
 
         public Form1()
         {
             InitializeComponent();
             Init();
-            translationX = 0;
-            translationY = 0;
-            translationZ = 8;
+
         }
 
         public void Init()
@@ -35,36 +35,11 @@ namespace Optimized_3D_Graphic_Engine
             PCT_CANVAS.Invalidate();
         }
 
-        private void rotBTN_Click(object sender, EventArgs e)
-        {
-            x = true;
-            y = z = all = false;
-        }
-
-        private void rotBTN2_Click(object sender, EventArgs e)
-        {
-            y = true;
-            x = z = all = false;
-        }
-
-        private void rotBTN3_Click(object sender, EventArgs e)
-        {
-            z = true;
-            x = y = all = false;
-        }
-
-        private void rotBTN4_Click(object sender, EventArgs e)
-        {
-            all = true;
-            x = y = z = false;
-        }
-
         private void ObjBTN_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             Vertex[] vertices;
             Triangle[] triangles;
-            semi = false;
 
             openFileDialog.Filter = "OBJ files (*.obj)|*.obj";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -74,6 +49,7 @@ namespace Optimized_3D_Graphic_Engine
                 try
                 {
                     StreamReader sr = new StreamReader(filename);
+                    figName = Path.GetFileNameWithoutExtension(filename);
                     List<Vertex> verticesValues = new List<Vertex>();
                     List<Triangle> trianglesValues = new List<Triangle>();
                     while (sr.Peek() >= 0)
@@ -109,7 +85,7 @@ namespace Optimized_3D_Graphic_Engine
                     vertices = verticesValues.ToArray();
                     triangles = trianglesValues.ToArray();
 
-                    RenderFigures(vertices, triangles);
+                    AddToList(new Model(vertices, triangles, new Vertex(0, 0, 0), (float)Math.Sqrt(3)));
                 }
                 catch
                 {
@@ -118,135 +94,71 @@ namespace Optimized_3D_Graphic_Engine
             }
         }
 
-        private void RenderFigures(Vertex[] vertices, Triangle[] triangles)
-        {
-            model = new Model(vertices, triangles, new Vertex(0, 0, 0), (float)Math.Sqrt(3));
-            instances = new Instance[1];
-            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
-        }
-
         private void rotTimer_Tick(object sender, EventArgs e)
         {
             if (model != null)
             {
-
                 canvas.FastClear();
-                canvas.SetModelInstances(instances);
-                if (x)
-                {
-                    if (semi == false)
-                    {
-                        instances[0] = new Instance(model, new Vertex(translationX, translationY, translationZ), Matrix.RotX(angle), scale);
-                        angle += rotSpeed;
-                    }
-                    else
-                    {
-                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotX(angle), scale);
-                        instances[1] = new Instance(model2, new Vertex(0, 0, 8), Matrix.RotX(angle), scale);
-                        angle += rotSpeed;
-                    }
-                }
-                else if (y)
-                {
-                    if (semi == false)
-                    {
-                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotY(angle), scale);
-                        angle += rotSpeed;
-                    }
-                    else
-                    {
-                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotY(angle), scale);
-                        instances[1] = new Instance(model2, new Vertex(0, 0, 8), Matrix.RotY(angle), scale);
-                        angle += rotSpeed;
-                    }
-                }
-                else if (z)
-                {
-                    if (semi == false)
-                    {
-                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotZ(angle), scale);
-                        angle += rotSpeed;
-                    }
-                    else
-                    {
-                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.RotZ(angle), scale);
-                        instances[1] = new Instance(model2, new Vertex(0, 0, 8), Matrix.RotZ(angle), scale);
-                        angle += rotSpeed;
-                    }
-                }
-                else if (all)
-                {
-                    if (semi == false)
-                    {
-                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Rotate(angle), scale);
-                        angle += rotSpeed;
-                    }
-                    else
-                    {
-                        instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Rotate(angle), scale);
-                        instances[1] = new Instance(model2, new Vertex(0, 0, 8), Matrix.Rotate(angle), scale);
-                        angle += rotSpeed;
-                    }
-                }
-                if (play)
-                    canvas.Animate(Frames.Value, initialFrame);
-                if (play)
-                {
-                    if (Frames.Value == Frames.Maximum)
-                        Frames.Value = 0;
-                    else
-                        Frames.Value++;
-                    //label1.Text = "Tiempo : " + ConvertirMilisegundosAString(TB_TIME.Value * TIMER.Interval);
-                }
-
-                PCT_CANVAS.Invalidate();
+                canvas.SetModelInstances(instances.ToArray());
             }
 
+            if (play)
+                canvas.Animate(Frames.Value, initialFrame);
+            if (play)
+            {
+                if (Frames.Value == Frames.Maximum)
+                    Frames.Value = 0;
+                else
+                    Frames.Value++;
+                //label1.Text = "Tiempo : " + ConvertirMilisegundosAString(TB_TIME.Value * TIMER.Interval);
+            }
 
+            PCT_CANVAS.Invalidate();
 
+        }
+        private void AddToList(Model m)
+        {
+            model = m;
+            if (instances == null) instances = new Instance[0];
+            Array.Resize(ref instances, instances.Length + 1);
+            instances[instances.Length - 1] = new Instance(model, new Vertex(translationX, translationY, translationZ), Matrix.Identity, scale);
+
+            if (instances != null)
+            {
+                TreeNode node = new TreeNode("Fig " + (treeView1.Nodes.Count + 1) + ": " + figName);
+                node.Tag = instances[treeView1.Nodes.Count];
+                treeView1.Nodes.Add(node);
+
+                canvas.SetModelInstances(instances.ToArray());
+            }
         }
 
         private void CubeBTN_Click(object sender, EventArgs e)
         {
-            semi = false;
-            model = Cube.CreateCube();
-            instances = new Instance[2];
-            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
-            instances[1] = new Instance(model, new Vertex(0, 0, 6), Matrix.Identity, scale);
+            Model cube = Cube.CreateCube();
+            figName = "Cube";
+            AddToList(cube);
         }
 
         private void ConeBTN_Click(object sender, EventArgs e)
         {
-            semi = false;
-            model = Cone.createCone(1f, 3f, 20, false);
-            instances = new Instance[1];
-            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
+            Model cone = Cone.createCone(1f, 3f, 20, false);
+            figName = "Cone";
+            AddToList(cone);
         }
 
         private void CylinderBTN_Click(object sender, EventArgs e)
         {
-            semi = false;
-            model = Cylinder.createCylinder(1f, 3f, 20, false);
-            instances = new Instance[1];
-            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
+            Model cylinder = Cylinder.createCylinder(1f, 3f, 20, false);
+            figName = "Cylinder";
+            AddToList(cylinder);
         }
 
         private void SphereBTN_Click(object sender, EventArgs e)
         {
-            semi = false;
-            model = Sphere.CreateSphere(2, 40);
-            instances = new Instance[1];
-            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
-        }
-
-        private void SemiSphere_Click(object sender, EventArgs e)
-        {
-            semi = true;
-            instances = new Instance[2];
-            model = Pizza.CreateCircle(2, 0, 40);
-            instances[0] = new Instance(model, new Vertex(0, 0, 8), Matrix.Identity, scale);
-            model2 = HalfSphere.CreateSemi(2, 40);
-            instances[1] = new Instance(model2, new Vertex(0, 0, 8), Matrix.Identity, scale);
+            Model sphere = Sphere.CreateSphere(2, 40);
+            figName = "Sphere";
+            AddToList(sphere);
         }
 
         private void ScaleField_KeyPress(object sender, KeyPressEventArgs e)
@@ -298,6 +210,11 @@ namespace Optimized_3D_Graphic_Engine
             colorDialog1.Color = Color.Yellow;
             ColorViewer.BackColor = colorDialog1.Color;
             canvas.figureColor = colorDialog1.Color;
+
+            translationX = 0;
+            translationY = 0;
+            translationZ = 8;
+
         }
 
         private void DrawMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -324,8 +241,16 @@ namespace Optimized_3D_Graphic_Engine
 
         private void Scale_MouseUp(object sender, MouseEventArgs e)
         {
-            if (Scale.Value < 0) scale -= 0.25f;
-            else if (Scale.Value >= 0) scale += 0.25f;
+            if (Scale.Value < 0)
+            {
+                scale -= 0.25f;
+                currentInstance.scale = scale;
+            }
+            else if (Scale.Value >= 0)
+            {
+                scale += 0.25f;
+                currentInstance.scale = scale;
+            }
             ScaleField.Text = Convert.ToString(scale);
             Scale.Value = 0;
         }
@@ -421,14 +346,29 @@ namespace Optimized_3D_Graphic_Engine
         {
             if (TranslationBTN.Checked == true)
             {
-                if (XCoord.Value < 0) translationX -= 0.010f;
-                else if (XCoord.Value > 0) translationX += 0.010f;
+                if (XCoord.Value < 0)
+                {
+                    translationX -= 0.010f;
+                    currentInstance.position.X = translationX;
+                }
+                else if (XCoord.Value > 0)
+                {
+                    translationX += 0.010f;
+                    currentInstance.position.X = translationX;
+                }
             }
             if (RotationBTN.Checked == true)
             {
-                if (YCoord.Value < 0) rotationX -= 10;
-                else if (YCoord.Value > 0) rotationX += 10;
-                x = true;
+                if (XCoord.Value < 0)
+                {
+                    rotationX -= 10;
+                    currentInstance.orientation = Matrix.RotX(rotationX);
+                }
+                else if (XCoord.Value > 0)
+                {
+                    rotationX += 10;
+                    currentInstance.orientation = Matrix.RotX(rotationX);
+                }
             }
         }
 
@@ -441,13 +381,29 @@ namespace Optimized_3D_Graphic_Engine
         {
             if (TranslationBTN.Checked == true)
             {
-                if (YCoord.Value < 0) translationY -= 0.010f;
-                else if (YCoord.Value > 0) translationY += 0.010f;
+                if (YCoord.Value < 0)
+                {
+                    translationY -= 0.010f;
+                    currentInstance.position.Y = translationY;
+                }
+                else if (YCoord.Value > 0)
+                {
+                    translationY += 0.010f;
+                    currentInstance.position.Y = translationY;
+                }
             }
             if (RotationBTN.Checked == true)
             {
-                if (YCoord.Value < 0) rotationY -= 10;
-                else if (YCoord.Value > 0) rotationY += 10;
+                if (YCoord.Value < 0)
+                {
+                    rotationY -= 10;
+                    currentInstance.orientation = Matrix.RotY(rotationY);
+                }
+                else if (YCoord.Value > 0)
+                {
+                    rotationY += 10;
+                    currentInstance.orientation = Matrix.RotY(rotationY);
+                }
             }
         }
 
@@ -460,13 +416,29 @@ namespace Optimized_3D_Graphic_Engine
         {
             if (TranslationBTN.Checked == true)
             {
-                if (ZCoord.Value < 0) translationZ -= 0.010f;
-                else if (ZCoord.Value > 0) translationZ += 0.010f;
+                if (ZCoord.Value < 0)
+                {
+                    translationZ -= 0.010f;
+                    currentInstance.position.Z = translationZ;
+                }
+                else if (ZCoord.Value > 0)
+                {
+                    translationZ += 0.010f;
+                    currentInstance.position.Z = translationZ;
+                }
             }
             if (RotationBTN.Checked == true)
             {
-                if (YCoord.Value < 0) rotationZ -= 10;
-                else if (YCoord.Value > 0) rotationZ += 10;
+                if (ZCoord.Value < 0)
+                {
+                    rotationZ -= 10;
+                    currentInstance.orientation = Matrix.RotZ(rotationZ);
+                }
+                else if (ZCoord.Value > 0)
+                {
+                    rotationZ += 10;
+                    currentInstance.orientation = Matrix.RotZ(rotationZ);
+                }
 
             }
         }
@@ -474,6 +446,16 @@ namespace Optimized_3D_Graphic_Engine
         private void ZCoord_MouseUp(object sender, MouseEventArgs e)
         {
             ZCoord.Value = 0;
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            currentInstance = (Instance)treeView1.SelectedNode.Tag;
+        }
+
+        private void treeView1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            return;
         }
     }
 }

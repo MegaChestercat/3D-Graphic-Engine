@@ -27,6 +27,12 @@
             this.scalation = 1.0f;
         }
 
+        public Matrix Transform()
+        {
+            Matrix m = Matrix.MakeTranslationMatrix(this.position) * this.orientation * Matrix.MakeScalingMatrix(this.scale);
+            return m;
+        }
+
         public void SaveTransformations(int time)
         {
             transformations.Add(new MatrixTransform(transform, time));

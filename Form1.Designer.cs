@@ -29,10 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            rotBTN = new Button();
-            rotBTN2 = new Button();
-            rotBTN3 = new Button();
-            rotBTN4 = new Button();
             rotTimer = new System.Windows.Forms.Timer(components);
             PCT_CANVAS = new PictureBox();
             ObjBTN = new Button();
@@ -40,7 +36,6 @@
             ConeBTN = new Button();
             CylinderBTN = new Button();
             SphereBTN = new Button();
-            SemiSphere = new Button();
             ScaleField = new TextBox();
             RotField = new TextBox();
             label1 = new Label();
@@ -93,46 +88,6 @@
             ((System.ComponentModel.ISupportInitialize)YCoord).BeginInit();
             TransformationsBox.SuspendLayout();
             SuspendLayout();
-            // 
-            // rotBTN
-            // 
-            rotBTN.Location = new Point(942, 587);
-            rotBTN.Name = "rotBTN";
-            rotBTN.Size = new Size(75, 23);
-            rotBTN.TabIndex = 1;
-            rotBTN.Text = "Rot in X";
-            rotBTN.UseVisualStyleBackColor = true;
-            rotBTN.Click += rotBTN_Click;
-            // 
-            // rotBTN2
-            // 
-            rotBTN2.Location = new Point(1049, 587);
-            rotBTN2.Name = "rotBTN2";
-            rotBTN2.Size = new Size(75, 23);
-            rotBTN2.TabIndex = 2;
-            rotBTN2.Text = "Rot in Y";
-            rotBTN2.UseVisualStyleBackColor = true;
-            rotBTN2.Click += rotBTN2_Click;
-            // 
-            // rotBTN3
-            // 
-            rotBTN3.Location = new Point(942, 630);
-            rotBTN3.Name = "rotBTN3";
-            rotBTN3.Size = new Size(75, 23);
-            rotBTN3.TabIndex = 3;
-            rotBTN3.Text = "Rot in Z";
-            rotBTN3.UseVisualStyleBackColor = true;
-            rotBTN3.Click += rotBTN3_Click;
-            // 
-            // rotBTN4
-            // 
-            rotBTN4.Location = new Point(1049, 619);
-            rotBTN4.Name = "rotBTN4";
-            rotBTN4.Size = new Size(75, 46);
-            rotBTN4.TabIndex = 4;
-            rotBTN4.Text = "Rot in all axis";
-            rotBTN4.UseVisualStyleBackColor = true;
-            rotBTN4.Click += rotBTN4_Click;
             // 
             // rotTimer
             // 
@@ -201,16 +156,6 @@
             SphereBTN.UseVisualStyleBackColor = true;
             SphereBTN.Click += SphereBTN_Click;
             // 
-            // SemiSphere
-            // 
-            SemiSphere.Location = new Point(53, 503);
-            SemiSphere.Name = "SemiSphere";
-            SemiSphere.Size = new Size(82, 23);
-            SemiSphere.TabIndex = 11;
-            SemiSphere.Text = "Semi Sphere";
-            SemiSphere.UseVisualStyleBackColor = true;
-            SemiSphere.Click += SemiSphere_Click;
-            // 
             // ScaleField
             // 
             ScaleField.Location = new Point(211, 74);
@@ -253,6 +198,8 @@
             treeView1.Name = "treeView1";
             treeView1.Size = new Size(145, 297);
             treeView1.TabIndex = 16;
+            treeView1.AfterSelect += treeView1_AfterSelect;
+            treeView1.KeyPress += treeView1_KeyPress;
             // 
             // label3
             // 
@@ -616,17 +563,12 @@
             Controls.Add(label1);
             Controls.Add(RotField);
             Controls.Add(ScaleField);
-            Controls.Add(SemiSphere);
             Controls.Add(SphereBTN);
             Controls.Add(CylinderBTN);
             Controls.Add(ConeBTN);
             Controls.Add(CubeBTN);
             Controls.Add(ObjBTN);
             Controls.Add(PCT_CANVAS);
-            Controls.Add(rotBTN4);
-            Controls.Add(rotBTN3);
-            Controls.Add(rotBTN2);
-            Controls.Add(rotBTN);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -649,10 +591,6 @@
         }
 
         #endregion
-        private Button rotBTN;
-        private Button rotBTN2;
-        private Button rotBTN3;
-        private Button rotBTN4;
         private System.Windows.Forms.Timer rotTimer;
         private PictureBox PCT_CANVAS;
         private Button ObjBTN;
@@ -660,7 +598,6 @@
         private Button ConeBTN;
         private Button CylinderBTN;
         private Button SphereBTN;
-        private Button SemiSphere;
         private TextBox ScaleField;
         private TextBox RotField;
         private Label label1;

@@ -497,7 +497,7 @@ namespace Optimized_3D_Graphic_Engine
             cameraMatrix = (camera.orientation.Transposed()) * Matrix.MakeTranslationMatrix(-camera.position) * Matrix.FOV();
             for (int i = 0; i < instances.Length; i++)
             {
-                transform = (cameraMatrix * instances[i].transform);
+                transform = (cameraMatrix * instances[i].Transform());
                 clipped = TransformAndClip(camera.clipping_planes.ToArray(), instances[i].model, instances[i].scale, transform);
 
                 if (clipped != null)
