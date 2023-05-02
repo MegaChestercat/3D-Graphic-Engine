@@ -8,6 +8,7 @@ namespace Optimized_3D_Graphic_Engine
 {
     public class MatrixTransform
     {
+        
         public Matrix matrix;
         public int time;
         public MatrixTransform(Matrix matrix, int time)

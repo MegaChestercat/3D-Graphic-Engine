@@ -74,7 +74,7 @@ namespace Optimized_3D_Graphic_Engine
             ClippingPlanes(90);
         }
 
-        public void SetModelInstances(Instance[] instances)
+        public void SetModelInstances(List<Instance> instances)
         {
             /*
             cube = new Model(vertices, triangles);
@@ -90,7 +90,10 @@ namespace Optimized_3D_Graphic_Engine
                 fovChanged = false;
             }
             if (cameraValueChanged) camera = new Camera(new Vertex(camX, camY, camZ), Matrix.RotY(0));
+            {
+                //instances = instances.ToArray();
             Render(instances);
+            }
         }
 
         private void ClippingPlanes(float fov)
@@ -138,7 +141,7 @@ namespace Optimized_3D_Graphic_Engine
             camera.clipping_planes.Add(new Plane(top, 0));  // top
             camera.clipping_planes.Add(new Plane(bottom, 0));  // bottom
         }
-        private void Render(Instance[] i)
+        private void Render(List<Instance> i)
         {
             for (int it = 0; it < depth_buffer.GetLength(0); it++)
             {
@@ -488,14 +491,14 @@ namespace Optimized_3D_Graphic_Engine
             return ViewportToCanvas(new Vertex(v.X * projection_plane_z / (v.Z), v.Y * projection_plane_z / (v.Z), v.Z));
         }
 
-        public void RenderScene(Camera camera, Instance[] instances)
+        public void RenderScene(Camera camera, List<Instance> instances)
         {
             Matrix cameraMatrix;
             Matrix transform;
             Model clipped;
 
             cameraMatrix = (camera.orientation.Transposed()) * Matrix.MakeTranslationMatrix(-camera.position) * Matrix.FOV();
-            for (int i = 0; i < instances.Length; i++)
+            for (int i = 0; i < instances.Count; i++)
             {
                 transform = (cameraMatrix * instances[i].Transform());
                 clipped = TransformAndClip(camera.clipping_planes.ToArray(), instances[i].model, instances[i].scale, transform);
