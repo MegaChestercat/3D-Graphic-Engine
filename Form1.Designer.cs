@@ -339,6 +339,7 @@
             Frames.Name = "Frames";
             Frames.Size = new Size(823, 45);
             Frames.TabIndex = 32;
+            Frames.Scroll += Frames_Scroll;
             // 
             // label10
             // 

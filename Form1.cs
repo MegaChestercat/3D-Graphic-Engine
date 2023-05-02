@@ -215,6 +215,8 @@ namespace Optimized_3D_Graphic_Engine
             translationY = 0;
             translationZ = 8;
 
+            play = false;
+
         }
 
         private void DrawMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -456,6 +458,11 @@ namespace Optimized_3D_Graphic_Engine
         private void treeView1_KeyPress(object sender, KeyPressEventArgs e)
         {
             return;
+        }
+
+        private void Frames_Scroll(object sender, EventArgs e)
+        {
+
         }
     }
 }
