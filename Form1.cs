@@ -168,6 +168,7 @@ namespace Optimized_3D_Graphic_Engine
                 try
                 {
                     scale = float.Parse(ScaleField.Text);
+                    currentInstance.scale = scale;
                 }
                 catch
                 {
