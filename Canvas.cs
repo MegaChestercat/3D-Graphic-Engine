@@ -23,6 +23,7 @@ namespace Optimized_3D_Graphic_Engine
         public int fovValue = 90;
         public float camX, camY, camZ = 0;
         public bool cameraValueChanged = false;
+        public List<Model> models;
 
 
         Model cube;
@@ -59,6 +60,8 @@ namespace Optimized_3D_Graphic_Engine
             bitPtr = Marshal.UnsafeAddrOfPinnedArrayElement(bits, 0);
             bitmap = new Bitmap(width, height, stride, format, bitPtr);
 
+            
+
             g = Graphics.FromImage(bitmap);
             depth_buffer = new float[width, height];
             figureColor = Color.White;
@@ -71,6 +74,11 @@ namespace Optimized_3D_Graphic_Engine
                     depth_buffer[i, j] = float.MaxValue;
                 }
             }
+            models = new List<Model>();
+            //models.Add(new Model(vertices, triangulos, new Vertex(0, 0, 0), (float)Math.Sqrt(3)));
+
+            instances = new List<Instance> ();
+            //{    new Instance(models[0], new Vertex(     0,     0, 7.5f ), Matrix.RotY(0))};
             ClippingPlanes(90);
         }
 
@@ -532,7 +540,7 @@ namespace Optimized_3D_Graphic_Engine
         {
             for (int i = 0; i < instances.Count; i++)
             {
-                //Console.WriteLine(instances[i].transform.ToString());
+                Console.WriteLine(instances[i].transform.ToString());
                 instances[i].SaveTransformations(frame);
             }
             Console.WriteLine("-------------------------------------");

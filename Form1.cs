@@ -13,6 +13,7 @@ namespace Optimized_3D_Graphic_Engine
         Instance currentInstance;
         float scale = 0.75f;
         int rotSpeed = 2;
+        int transform;
         bool MouseDownY = false;
         float translationX, translationY, translationZ;
         float rotationX, rotationY, rotationZ = 0;
@@ -31,6 +32,11 @@ namespace Optimized_3D_Graphic_Engine
         public void Init()
         {
             canvas = new Canvas(PCT_CANVAS.Size);
+            transform = 0;
+            play = false;
+            initialFrame = -1;
+            finalFrame = -1;
+            Frames.Maximum = (10000 / rotTimer.Interval) + 1;
             PCT_CANVAS.Image = canvas.Bitmap;
             PCT_CANVAS.Invalidate();
         }
