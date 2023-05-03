@@ -488,12 +488,6 @@ namespace Optimized_3D_Graphic_Engine
 
             return new Model(vertices.ToArray(), triangles.ToArray(), center, model.bounds_radius);
         }
-        public void CalculateSteps(int initialFrame, int finalFrame)
-        {
-
-            for (int i = 0; i < instances.Count; i++)
-                instances[i].CalculateSteps(initialFrame, finalFrame);
-        }
         private void RenderModel(Model model)
         {
             List<Vertex> projected = new List<Vertex>();
@@ -540,39 +534,6 @@ namespace Optimized_3D_Graphic_Engine
                 }
             }
         }
-        public void Animate(int frame, int initialFrame)
-        {
-            //Console.WriteLine(frame + "|" + initialFrame);
-            for (int i = 0; i < instances.Count; i++)
-            {
-                MatrixTransform transformation = instances[i].FindTransformation(frame);
-                if (transformation == null)
-                {
-                    continue;
-                }
-                else if (frame == initialFrame)
-                {
-                    instances[i].transform = instances[i].initialTransform;
-                    return;
-                }
-                else
-                {
-                    instances[i].transform = transformation.matrix;
-                }
-
-            }
-        }
-        public void SaveFrame(int frame)
-        {
-            for (int i = 0; i < instances.Count; i++)
-            {
-                Console.WriteLine(instances[i].transform.ToString());
-                instances[i].SaveTransformations(frame);
-            }
-            Console.WriteLine("-------------------------------------");
-        }
-
-
     }
 
 }

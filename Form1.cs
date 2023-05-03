@@ -11,7 +11,7 @@ namespace Optimized_3D_Graphic_Engine
         Instance[] instances;
         Model model;
         Instance currentInstance;
-        float scale = 0.75f;
+        float scale = 1f;
         int rotSpeed = 2;
         int transform;
         bool MouseDownY = false;
@@ -34,9 +34,6 @@ namespace Optimized_3D_Graphic_Engine
             canvas = new Canvas(PCT_CANVAS.Size);
             transform = 0;
             play = false;
-            initialFrame = -1;
-            finalFrame = -1;
-            Frames.Maximum = (10000 / rotTimer.Interval) + 1;
             PCT_CANVAS.Image = canvas.Bitmap;
             PCT_CANVAS.Invalidate();
         }
@@ -102,24 +99,28 @@ namespace Optimized_3D_Graphic_Engine
 
         private void rotTimer_Tick(object sender, EventArgs e)
         {
+            canvas.FastClear();
             if (model != null)
             {
-                canvas.FastClear();
+                //canvas.FastClear();
+                //canvas.SetModelInstances(instances.ToArray());
+                if (play)
+                    Animate(Frames.Value, initialFrame);
                 canvas.SetModelInstances(instances.ToArray());
+                PCT_CANVAS.Invalidate();
+                if (play)
+                {
+                    if (Frames.Value == Frames.Maximum)
+                        Frames.Value = 0;
+                    else
+                        Frames.Value++;
+                    label10.Text = "Frame: " + Frames.Value + " Available Frames: " + Frames.Maximum;
+                    //label1.Text = "Tiempo : " + ConvertirMilisegundosAString(TB_TIME.Value * TIMER.Interval);
+                }
+                
             }
 
-            if (play)
-                canvas.Animate(Frames.Value, initialFrame);
-            if (play)
-            {
-                if (Frames.Value == Frames.Maximum)
-                    Frames.Value = 0;
-                else
-                    Frames.Value++;
-                //label1.Text = "Tiempo : " + ConvertirMilisegundosAString(TB_TIME.Value * TIMER.Interval);
-            }
-
-            PCT_CANVAS.Invalidate();
+            //PCT_CANVAS.Invalidate();
 
         }
         private void AddToList(Model m)
@@ -224,6 +225,10 @@ namespace Optimized_3D_Graphic_Engine
 
             play = false;
 
+            initialFrame = -1;
+            finalFrame = -1;
+            Frames.Maximum = (10000 / rotTimer.Interval) + 1;
+
         }
 
         private void DrawMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -320,31 +325,77 @@ namespace Optimized_3D_Graphic_Engine
             if (initialFrame == -1)
             {
                 initialFrame = Frames.Value;
-                canvas.SaveFrame(Frames.Value);
+                SaveFrame(Frames.Value);
 
             }
             else if (finalFrame == -1)
             {
                 finalFrame = Frames.Value;
-                canvas.SaveFrame(Frames.Value);
-                for (int i = 0; i < canvas.instances.Count; i++)
+                SaveFrame(Frames.Value);
+                /*
+                for (int i = 0; i < instances.Length; i++)
                 {
-                    Instance ints = canvas.instances[i];
+                    Instance ints = instances[i];
                     for (int j = 0; j < ints.transformations.Count; j++)
                     {
-                        label2.Text += ints.transformations[j].ToString();
+                        //label2.Text += ints.transformations[j].ToString();
 
                     }
-                }
-                canvas.CalculateSteps(initialFrame, finalFrame);
+                }*/
+                CalculateSteps(initialFrame, finalFrame);
 
 
             }
             else
             {
-                Console.WriteLine("ERROR");
+                finalFrame = Frames.Value;
+                SaveFrame(Frames.Value);
+                CalculateSteps(initialFrame, finalFrame);
+                //MessageBox.Show("ERROR");
+
             }
         }
+
+        public void CalculateSteps(int initialFrame, int finalFrame)
+        {
+
+            for (int i = 0; i < instances.Length; i++)
+                currentInstance.CalculateSteps(initialFrame, finalFrame);
+        }
+
+
+        public void Animate(int frame, int initialFrame)
+        {
+            //Console.WriteLine(frame + "|" + initialFrame);
+            for (int i = 0; i < instances.Length; i++)
+            {
+                MatrixTransform transformation = currentInstance.FindTransformation(frame);
+                if (transformation == null)
+                {
+                    continue;
+                }
+                else if (frame == initialFrame)
+                {
+                    currentInstance.transform = instances[i].initialTransform;
+                    return;
+                }
+                else
+                {
+                    currentInstance.transform = transformation.matrix;
+                }
+
+            }
+        }
+        public void SaveFrame(int frame)
+        {
+            for (int i = 0; i < instances.Length; i++)
+            {
+                //Console.WriteLine(instances[i].transform.ToString());
+                currentInstance.SaveTransformations(frame);
+            }
+            
+        }
+
 
         private void XCoord_MouseDown(object sender, MouseEventArgs e)
         {
