@@ -399,6 +399,7 @@
             button3.TabIndex = 38;
             button3.Text = "Change Animation Speed";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // label11
             // 

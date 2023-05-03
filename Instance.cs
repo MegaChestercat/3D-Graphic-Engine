@@ -19,7 +19,7 @@
             this.position = position;
             this.orientation = orientation ?? Matrix.Identity;
             this.scale = scale;
-            this.translation = new Vertex(0, 0, 0);
+            this.translation = new Vertex(0, 0, 8);
             this.transform = Matrix.MakeTranslationMatrix(this.position) * this.orientation * Matrix.MakeScalingMatrix(this.scale);
             initialTransform = transform;
             this.angle = new Vertex(0, 0, 0);

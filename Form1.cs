@@ -21,6 +21,7 @@ namespace Optimized_3D_Graphic_Engine
         int initialFrame;
         int finalFrame;
         String figName;
+        int speedCounter = 0;
 
         public Form1()
         {
@@ -99,13 +100,12 @@ namespace Optimized_3D_Graphic_Engine
 
         private void rotTimer_Tick(object sender, EventArgs e)
         {
-            //canvas.FastClear();
             if (model != null)
             {
-                //canvas.FastClear();
-                //canvas.SetModelInstances(instances.ToArray());
                 if (play)
                     Animate(Frames.Value, initialFrame);
+
+
                 canvas.SetModelInstances(instances.ToArray());
                 PCT_CANVAS.Invalidate();
                 if (play)
@@ -115,9 +115,9 @@ namespace Optimized_3D_Graphic_Engine
                     else
                         Frames.Value++;
                     label10.Text = "Frame: " + Frames.Value + " Available Frames: " + Frames.Maximum;
-                    //label1.Text = "Tiempo : " + ConvertirMilisegundosAString(TB_TIME.Value * TIMER.Interval);
+
                 }
-                
+
             }
 
             //PCT_CANVAS.Invalidate();
@@ -371,29 +371,48 @@ namespace Optimized_3D_Graphic_Engine
         public void Animate(int frame, int initialFrame)
         {
             //Console.WriteLine(frame + "|" + initialFrame);
-            MatrixTransform transformation = currentInstance.FindTransformation(frame);
-            if (transformation == null)
+            if (checkBox1.Checked)
             {
-                
-            }
-            else if (frame == initialFrame)
-            {
-                currentInstance.transform = currentInstance.initialTransform;
-                return;
+                for (int i = 0; i < treeView1.Nodes.Count; i++)
+                {
+                    MatrixTransform transformation = instances[i].FindTransformation(frame);
+                    if (transformation == null)
+                    {
+
+                    }
+                    else if (frame == initialFrame)
+                    {
+                        instances[i].transform = instances[i].initialTransform;
+                        return;
+                    }
+                    else
+                    {
+                        instances[i].transform = transformation.matrix;
+                    }
+                }
             }
             else
             {
-                currentInstance.transform = transformation.matrix;
+                MatrixTransform transformation = currentInstance.FindTransformation(frame);
+                if (transformation == null)
+                {
+
+                }
+                else if (frame == initialFrame)
+                {
+                    currentInstance.transform = currentInstance.initialTransform;
+                    return;
+                }
+                else
+                {
+                    currentInstance.transform = transformation.matrix;
+                }
             }
         }
         public void SaveFrame(int frame)
         {
-            for (int i = 0; i < instances.Length; i++)
-            {
-                //Console.WriteLine(instances[i].transform.ToString());
-                currentInstance.SaveTransformations(frame);
-            }
-            
+            currentInstance.SaveTransformations(frame);
+
         }
 
 
@@ -591,6 +610,38 @@ namespace Optimized_3D_Graphic_Engine
         private void Frames_Scroll(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            switch (speedCounter)
+            {
+                case 0:
+                    rotTimer.Interval = 60;
+                    button3.Text = ">";
+                    speedCounter++;
+                    break;
+                case 1:
+                    rotTimer.Interval = 40;
+                    button3.Text = ">>";
+                    speedCounter++;
+                    break;
+                case 2:
+                    rotTimer.Interval = 20;
+                    button3.Text = ">>>";
+                    speedCounter++;
+                    break;
+                case 3:
+                    rotTimer.Interval = 10;
+                    button3.Text = ">>>>";
+                    speedCounter++;
+                    break;
+                case 4:
+                    rotTimer.Interval = 80;
+                    button3.Text = "Change Animation Speed";
+                    speedCounter = 0;
+                    break;
+            }
         }
     }
 }
