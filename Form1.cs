@@ -8,7 +8,7 @@ namespace Optimized_3D_Graphic_Engine
     {
 
         Canvas canvas;
-        List<Instance> instances;
+        Instance[] instances;
         Model model;
         Instance currentInstance;
         float scale = 0.75f;
@@ -31,9 +31,6 @@ namespace Optimized_3D_Graphic_Engine
         public void Init()
         {
             canvas = new Canvas(PCT_CANVAS.Size);
-            initialFrame = -1;
-            finalFrame = -1;
-            instances = new List<Instance>();
             PCT_CANVAS.Image = canvas.Bitmap;
             PCT_CANVAS.Invalidate();
         }
@@ -102,7 +99,7 @@ namespace Optimized_3D_Graphic_Engine
             if (model != null)
             {
                 canvas.FastClear();
-                canvas.SetModelInstances(instances);
+                canvas.SetModelInstances(instances.ToArray());
             }
 
             if (play)
@@ -122,10 +119,9 @@ namespace Optimized_3D_Graphic_Engine
         private void AddToList(Model m)
         {
             model = m;
-            if (instances == null) instances = new List<Instance>();
-            instances.Add(new Instance(model, new Vertex(translationX, translationY, translationZ), Matrix.Identity, scale));
-            //Array.Resize(ref instances, instances.Length + 1);
-            //instances[instances.Length - 1] = new Instance(model, new Vertex(translationX, translationY, translationZ), Matrix.Identity, scale);
+            if (instances == null) instances = new Instance[0];
+            Array.Resize(ref instances, instances.Length + 1);
+            instances[instances.Length - 1] = new Instance(model, new Vertex(translationX, translationY, translationZ), Matrix.Identity, scale);
 
             if (instances != null)
             {
@@ -133,7 +129,7 @@ namespace Optimized_3D_Graphic_Engine
                 node.Tag = instances[treeView1.Nodes.Count];
                 treeView1.Nodes.Add(node);
 
-                canvas.SetModelInstances(instances);
+                canvas.SetModelInstances(instances.ToArray());
             }
         }
 
