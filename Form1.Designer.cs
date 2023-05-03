@@ -502,6 +502,7 @@
             TranslationBTN.TabStop = true;
             TranslationBTN.Text = "Translation";
             TranslationBTN.UseVisualStyleBackColor = true;
+            TranslationBTN.Click += TranslationBTN_Click;
             // 
             // RotationBTN
             // 
@@ -513,6 +514,7 @@
             RotationBTN.TabStop = true;
             RotationBTN.Text = "Rotation";
             RotationBTN.UseVisualStyleBackColor = true;
+            RotationBTN.Click += RotationBTN_Click;
             // 
             // TransformationsBox
             // 

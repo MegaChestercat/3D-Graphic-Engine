@@ -12,9 +12,8 @@ namespace Optimized_3D_Graphic_Engine
         Model model;
         Instance currentInstance;
         float scale = 1f;
-        int rotSpeed = 2;
-        int transform;
-        bool MouseDownY = false;
+        int rotSpeed = 10;
+        bool sliderLimit = false;
         float translationX, translationY, translationZ;
         float rotationX, rotationY, rotationZ = 0;
         bool play;
@@ -33,7 +32,6 @@ namespace Optimized_3D_Graphic_Engine
         public void Init()
         {
             canvas = new Canvas(PCT_CANVAS.Size);
-            transform = 0;
             play = false;
             PCT_CANVAS.Image = canvas.Bitmap;
             PCT_CANVAS.Invalidate();
@@ -110,10 +108,11 @@ namespace Optimized_3D_Graphic_Engine
                 PCT_CANVAS.Invalidate();
                 if (play)
                 {
-                    if (Frames.Value == Frames.Maximum)
-                        Frames.Value = 0;
-                    else
+                    if (Frames.Value < Frames.Maximum && !sliderLimit)
                         Frames.Value++;
+                    else if (Frames.Value > 0 && sliderLimit)
+                        Frames.Value--;
+                    else sliderLimit = !sliderLimit;
                     label10.Text = "Frame: " + Frames.Value + " Available Frames: " + Frames.Maximum;
 
                 }
@@ -175,7 +174,9 @@ namespace Optimized_3D_Graphic_Engine
                 try
                 {
                     scale = float.Parse(ScaleField.Text);
-                    currentInstance.scale = scale;
+                    float s = scale / currentInstance.scalation;
+                    currentInstance.transform *= Matrix.MakeScalingMatrix(s);
+                    currentInstance.scalation = scale;
                 }
                 catch
                 {
@@ -227,8 +228,9 @@ namespace Optimized_3D_Graphic_Engine
 
             initialFrame = -1;
             finalFrame = -1;
-            Frames.Maximum = (10000 / rotTimer.Interval) + 1;
-
+            Frames.Maximum = 150;
+            RotField.Text = rotSpeed.ToString();
+            label10.Text = "Frame: " + Frames.Value + " Available Frames: " + Frames.Maximum;
         }
 
         private void DrawMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -450,7 +452,7 @@ namespace Optimized_3D_Graphic_Engine
             {
                 if (XCoord.Value < 0)
                 {
-                    rotationX -= 10;
+                    rotationX -= Math.Abs(rotSpeed);
                     /*
                     rotationX -= 10;
                     currentInstance.orientation = Matrix.RotX(rotationX);*/
@@ -464,7 +466,7 @@ namespace Optimized_3D_Graphic_Engine
                     /*
                     rotationX += 10;
                     currentInstance.orientation = Matrix.RotX(rotationX);*/
-                    rotationX += 10;
+                    rotationX += Math.Abs(rotSpeed);
                     Vertex angle = new Vertex(rotationX, rotationY, rotationZ);
                     Vertex rot = angle - currentInstance.angle;
                     currentInstance.transform *= Matrix.Rotate(rot);
@@ -512,7 +514,7 @@ namespace Optimized_3D_Graphic_Engine
                     /*
                     rotationY -= 10;
                     currentInstance.orientation = Matrix.RotY(rotationY);*/
-                    rotationY -= 10;
+                    rotationY -= Math.Abs(rotSpeed);
                     Vertex angle = new Vertex(rotationX, rotationY, rotationZ);
                     Vertex rot = angle - currentInstance.angle;
                     currentInstance.transform *= Matrix.Rotate(rot);
@@ -523,7 +525,7 @@ namespace Optimized_3D_Graphic_Engine
                     /*
                     rotationY += 10;
                     currentInstance.orientation = Matrix.RotY(rotationY);*/
-                    rotationY += 10;
+                    rotationY += Math.Abs(rotSpeed);
                     Vertex angle = new Vertex(rotationX, rotationY, rotationZ);
                     Vertex rot = angle - currentInstance.angle;
                     currentInstance.transform *= Matrix.Rotate(rot);
@@ -571,7 +573,7 @@ namespace Optimized_3D_Graphic_Engine
                     /*
                     rotationZ -= 10;
                     currentInstance.orientation = Matrix.RotZ(rotationZ);*/
-                    rotationZ -= 10;
+                    rotationZ -= Math.Abs(rotSpeed);
                     Vertex angle = new Vertex(rotationX, rotationY, rotationZ);
                     Vertex rot = angle - currentInstance.angle;
                     currentInstance.transform *= Matrix.Rotate(rot);
@@ -582,7 +584,7 @@ namespace Optimized_3D_Graphic_Engine
                     /*
                     rotationZ += 10;
                     currentInstance.orientation = Matrix.RotZ(rotationZ);*/
-                    rotationZ += 10;
+                    rotationZ += Math.Abs(rotSpeed);
                     Vertex angle = new Vertex(rotationX, rotationY, rotationZ);
                     Vertex rot = angle - currentInstance.angle;
                     currentInstance.transform *= Matrix.Rotate(rot);
@@ -609,7 +611,7 @@ namespace Optimized_3D_Graphic_Engine
 
         private void Frames_Scroll(object sender, EventArgs e)
         {
-
+            label10.Text = "Frame: " + Frames.Value + " Available Frames: " + Frames.Maximum;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -642,6 +644,16 @@ namespace Optimized_3D_Graphic_Engine
                     speedCounter = 0;
                     break;
             }
+        }
+
+        private void TranslationBTN_Click(object sender, EventArgs e)
+        {
+            FOV.Enabled = true;
+        }
+
+        private void RotationBTN_Click(object sender, EventArgs e)
+        {
+            FOV.Enabled = false;
         }
     }
 }
