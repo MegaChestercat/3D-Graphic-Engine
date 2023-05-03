@@ -99,7 +99,7 @@ namespace Optimized_3D_Graphic_Engine
 
         private void rotTimer_Tick(object sender, EventArgs e)
         {
-            canvas.FastClear();
+            //canvas.FastClear();
             if (model != null)
             {
                 //canvas.FastClear();
@@ -367,23 +367,19 @@ namespace Optimized_3D_Graphic_Engine
         public void Animate(int frame, int initialFrame)
         {
             //Console.WriteLine(frame + "|" + initialFrame);
-            for (int i = 0; i < instances.Length; i++)
+            MatrixTransform transformation = currentInstance.FindTransformation(frame);
+            if (transformation == null)
             {
-                MatrixTransform transformation = currentInstance.FindTransformation(frame);
-                if (transformation == null)
-                {
-                    continue;
-                }
-                else if (frame == initialFrame)
-                {
-                    currentInstance.transform = instances[i].initialTransform;
-                    return;
-                }
-                else
-                {
-                    currentInstance.transform = transformation.matrix;
-                }
-
+                
+            }
+            else if (frame == initialFrame)
+            {
+                currentInstance.transform = currentInstance.initialTransform;
+                return;
+            }
+            else
+            {
+                currentInstance.transform = transformation.matrix;
             }
         }
         public void SaveFrame(int frame)

@@ -117,6 +117,7 @@ namespace Optimized_3D_Graphic_Engine
                                     //new Instance(cube, new Vertex(  1.25f, 2.5f, 7.5f ), Matrix.RotY(195)),
                                     //new Instance(cube, new Vertex(     0,     0,  -10 ), Matrix.RotY(195))};
             */
+            FastClear();
             if (fovChanged)
             {
                 Matrix.fovValue = fovValue;
