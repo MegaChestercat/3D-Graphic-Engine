@@ -258,12 +258,16 @@ namespace Optimized_3D_Graphic_Engine
             if (Scale.Value < 0)
             {
                 scale -= 0.25f;
-                currentInstance.scale = scale;
+                float s = scale / currentInstance.scalation;
+                currentInstance.transform *= Matrix.MakeScalingMatrix(s);
+                currentInstance.scalation = scale;
             }
             else if (Scale.Value >= 0)
             {
                 scale += 0.25f;
-                currentInstance.scale = scale;
+                float s = scale / currentInstance.scalation;
+                currentInstance.transform *= Matrix.MakeScalingMatrix(s);
+                currentInstance.scalation = scale;
             }
             ScaleField.Text = Convert.ToString(scale);
             Scale.Value = 0;
@@ -405,12 +409,22 @@ namespace Optimized_3D_Graphic_Engine
                 if (XCoord.Value < 0)
                 {
                     translationX -= 0.010f;
-                    currentInstance.position.X = translationX;
+                    Vertex translation = new Vertex(translationX, translationY, translationZ);
+                    Vertex tras = translation - currentInstance.translation;
+                    currentInstance.transform *= Matrix.MakeTranslationMatrix(tras);
+                    currentInstance.translation = translation;
+                    //currentInstance.position.X = translationX;
                 }
                 else if (XCoord.Value > 0)
                 {
                     translationX += 0.010f;
-                    currentInstance.position.X = translationX;
+                    Vertex translation = new Vertex(translationX, translationY, translationZ);
+                    Vertex tras = translation - currentInstance.translation;
+                    currentInstance.transform *= Matrix.MakeTranslationMatrix(tras);
+                    currentInstance.translation = translation;
+                    /*
+                    translationX += 0.010f;
+                    currentInstance.position.X = translationX;*/
                 }
             }
             if (RotationBTN.Checked == true)
@@ -418,12 +432,24 @@ namespace Optimized_3D_Graphic_Engine
                 if (XCoord.Value < 0)
                 {
                     rotationX -= 10;
-                    currentInstance.orientation = Matrix.RotX(rotationX);
+                    /*
+                    rotationX -= 10;
+                    currentInstance.orientation = Matrix.RotX(rotationX);*/
+                    Vertex angle = new Vertex(rotationX, rotationY, rotationZ);
+                    Vertex rot = angle - currentInstance.angle;
+                    currentInstance.transform *= Matrix.Rotate(rot);
+                    currentInstance.angle = angle;
                 }
                 else if (XCoord.Value > 0)
                 {
+                    /*
                     rotationX += 10;
-                    currentInstance.orientation = Matrix.RotX(rotationX);
+                    currentInstance.orientation = Matrix.RotX(rotationX);*/
+                    rotationX += 10;
+                    Vertex angle = new Vertex(rotationX, rotationY, rotationZ);
+                    Vertex rot = angle - currentInstance.angle;
+                    currentInstance.transform *= Matrix.Rotate(rot);
+                    currentInstance.angle = angle;
                 }
             }
         }
@@ -439,26 +465,50 @@ namespace Optimized_3D_Graphic_Engine
             {
                 if (YCoord.Value < 0)
                 {
+                    /*
                     translationY -= 0.010f;
-                    currentInstance.position.Y = translationY;
+                    currentInstance.position.Y = translationY;*/
+                    translationY -= 0.010f;
+                    Vertex translation = new Vertex(translationX, translationY, translationZ);
+                    Vertex tras = translation - currentInstance.translation;
+                    currentInstance.transform *= Matrix.MakeTranslationMatrix(tras);
+                    currentInstance.translation = translation;
                 }
                 else if (YCoord.Value > 0)
                 {
+                    /*
                     translationY += 0.010f;
-                    currentInstance.position.Y = translationY;
+                    currentInstance.position.Y = translationY;*/
+                    translationY += 0.010f;
+                    Vertex translation = new Vertex(translationX, translationY, translationZ);
+                    Vertex tras = translation - currentInstance.translation;
+                    currentInstance.transform *= Matrix.MakeTranslationMatrix(tras);
+                    currentInstance.translation = translation;
                 }
             }
             if (RotationBTN.Checked == true)
             {
                 if (YCoord.Value < 0)
                 {
+                    /*
                     rotationY -= 10;
-                    currentInstance.orientation = Matrix.RotY(rotationY);
+                    currentInstance.orientation = Matrix.RotY(rotationY);*/
+                    rotationY -= 10;
+                    Vertex angle = new Vertex(rotationX, rotationY, rotationZ);
+                    Vertex rot = angle - currentInstance.angle;
+                    currentInstance.transform *= Matrix.Rotate(rot);
+                    currentInstance.angle = angle;
                 }
                 else if (YCoord.Value > 0)
                 {
+                    /*
                     rotationY += 10;
-                    currentInstance.orientation = Matrix.RotY(rotationY);
+                    currentInstance.orientation = Matrix.RotY(rotationY);*/
+                    rotationY += 10;
+                    Vertex angle = new Vertex(rotationX, rotationY, rotationZ);
+                    Vertex rot = angle - currentInstance.angle;
+                    currentInstance.transform *= Matrix.Rotate(rot);
+                    currentInstance.angle = angle;
                 }
             }
         }
@@ -474,26 +524,50 @@ namespace Optimized_3D_Graphic_Engine
             {
                 if (ZCoord.Value < 0)
                 {
+                    /*
                     translationZ -= 0.010f;
-                    currentInstance.position.Z = translationZ;
+                    currentInstance.position.Z = translationZ;*/
+                    translationZ -= 0.010f;
+                    Vertex translation = new Vertex(translationX, translationY, translationZ);
+                    Vertex tras = translation - currentInstance.translation;
+                    currentInstance.transform *= Matrix.MakeTranslationMatrix(tras);
+                    currentInstance.translation = translation;
                 }
                 else if (ZCoord.Value > 0)
                 {
+                    /*
                     translationZ += 0.010f;
-                    currentInstance.position.Z = translationZ;
+                    currentInstance.position.Z = translationZ;*/
+                    translationZ += 0.010f;
+                    Vertex translation = new Vertex(translationX, translationY, translationZ);
+                    Vertex tras = translation - currentInstance.translation;
+                    currentInstance.transform *= Matrix.MakeTranslationMatrix(tras);
+                    currentInstance.translation = translation;
                 }
             }
             if (RotationBTN.Checked == true)
             {
                 if (ZCoord.Value < 0)
                 {
+                    /*
                     rotationZ -= 10;
-                    currentInstance.orientation = Matrix.RotZ(rotationZ);
+                    currentInstance.orientation = Matrix.RotZ(rotationZ);*/
+                    rotationZ -= 10;
+                    Vertex angle = new Vertex(rotationX, rotationY, rotationZ);
+                    Vertex rot = angle - currentInstance.angle;
+                    currentInstance.transform *= Matrix.Rotate(rot);
+                    currentInstance.angle = angle;
                 }
                 else if (ZCoord.Value > 0)
                 {
+                    /*
                     rotationZ += 10;
-                    currentInstance.orientation = Matrix.RotZ(rotationZ);
+                    currentInstance.orientation = Matrix.RotZ(rotationZ);*/
+                    rotationZ += 10;
+                    Vertex angle = new Vertex(rotationX, rotationY, rotationZ);
+                    Vertex rot = angle - currentInstance.angle;
+                    currentInstance.transform *= Matrix.Rotate(rot);
+                    currentInstance.angle = angle;
                 }
 
             }
