@@ -35,7 +35,7 @@
 
         public void SaveTransformations(int time)
         {
-            transformations.Add(new MatrixTransform(transform, time));
+            transformations.Add(new MatrixTransform(Transform(), time));
         }
         public MatrixTransform FindTransformation(int time)
         {
